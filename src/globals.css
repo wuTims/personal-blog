@@ -1,0 +1,172 @@
+@import 'tailwindcss';
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* ============================================
+   Tailwind CSS v4 Theme Configuration
+   ============================================ */
+
+@theme {
+  /* Neutral color scale for buttons and UI elements */
+  --color-neutral-50: #fafafa;
+  --color-neutral-100: #f5f5f5;
+  --color-neutral-200: #e5e5e5;
+  --color-neutral-300: #d4d4d4;
+  --color-neutral-600: #525252;
+  --color-neutral-700: #404040;
+  --color-neutral-800: #262626;
+  --color-neutral-900: #171717;
+  --color-white: #ffffff;
+  --color-black: #000000;
+
+  /* Semantic colors */
+  --color-background: #fafafa;
+  --color-card: #ffffff;
+  --color-foreground: #0a0a0a;
+  --color-muted: #737373;
+  --color-border: #e5e5e5;
+
+  /* Accent colors */
+  --color-emerald: #00855d;
+  --color-coral: #ff6b35;
+  --color-lavender: #cba6f7;
+  --color-sky: #4a81de;
+
+  /* Code colors */
+  --color-code-bg: #1e1e2e;
+  --color-code-fg: #f8f8f2;
+
+  /* Font families */
+  --font-family-sans: 'Inter', ui-sans-serif, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-family-serif: 'Playfair Display', ui-serif, Georgia, Cambria, 'Times New Roman', Times, serif;
+  --font-family-mono: 'IBM Plex Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+
+  /* Spacing */
+  --spacing-base: 0.25rem;
+
+  /* Border radius */
+  --radius-sm: 2px;
+  --radius-md: 6px;
+  --radius-lg: 8px;
+
+  /* Transitions */
+  --transition-default: box-shadow 0.3s ease, transform 0.3s ease;
+
+  /* Shadows (Mac-style) */
+  --shadow-mac: 6px 6px 0 0 #f0f0f0;
+  --shadow-mac-hover: 8px 8px 0 0 #ccc;
+}
+
+/* ============================================
+   Dark Mode Overrides
+   ============================================ */
+
+@layer theme {
+  :root.dark {
+    /* Override semantic colors for dark mode */
+    --color-background: #0a0a0a;
+    --color-card: #1a1a1a;
+    --color-foreground: #fafafa;
+    --color-muted: #a3a3a3;
+    --color-border: #262626;
+
+    /* Override accent colors for dark mode */
+    --color-emerald: #10b981;
+    --color-coral: #fb923c;
+    --color-lavender: #d8b4fe;
+    --color-sky: #60a5fa;
+
+    /* Override code colors for dark mode */
+    --color-code-bg: #161616;
+
+    /* Override shadows for dark mode */
+    --shadow-mac: 6px 6px 0 0 #262626;
+    --shadow-mac-hover: 8px 8px 0 0 #404040;
+  }
+}
+
+@layer base {
+  /* ========== Base Styles ========== */
+  body {
+    background-color: var(--color-background);
+    color: var(--color-foreground);
+    font-family: var(--font-family-sans);
+    font-size: 1rem;
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    /* Ensure text remains visible during font load (FOIT prevention) */
+    text-rendering: optimizeLegibility;
+  }
+
+  /* ========== Typography Reset ========== */
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-family: var(--font-family-serif);
+    font-weight: 600;
+    line-height: 1.2;
+    margin: 0;
+  }
+
+  p {
+    margin: 0;
+  }
+
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  /* ========== Code Blocks ========== */
+  code,
+  pre {
+    font-family: var(--font-family-mono);
+    font-size: 0.875rem;
+  }
+
+  code {
+    background-color: var(--color-code-bg);
+    color: var(--color-code-fg);
+    padding: 0.125rem 0.375rem;
+    border-radius: var(--radius-sm);
+  }
+
+  pre {
+    background-color: var(--color-code-bg);
+    color: var(--color-code-fg);
+    padding: 1rem;
+    border-radius: var(--radius-sm);
+    overflow-x: auto;
+  }
+
+  pre code {
+    padding: 0;
+    background: transparent;
+  }
+}
+
+/* ============================================
+   Utility Classes
+   ============================================ */
+
+@layer utilities {
+  /* Mac-Style Card Shadow */
+  .mac-shadow {
+    box-shadow: var(--shadow-mac);
+    transition: var(--transition-default);
+  }
+
+  .mac-shadow:hover {
+    box-shadow: var(--shadow-mac-hover);
+    transform: translateY(-2px);
+  }
+
+  /* Mac-Style Shadow without hover effect (for cards with buttons) */
+  .mac-shadow-static {
+    box-shadow: var(--shadow-mac);
+  }
+}
