@@ -6,8 +6,13 @@ import {
 import type { ReactNode } from 'react'
 import appCss from '~/globals.css?url'
 import { DarkModeProvider } from '~/components/DarkModeProvider'
+import { getThemeServerFn } from '~/utils/theme.server'
 
 export const Route = createRootRoute({
+  loader: async () => {
+    const theme = await getThemeServerFn()
+    return { theme }
+  },
   head: () => ({
     meta: [
       {
@@ -16,28 +21,6 @@ export const Route = createRootRoute({
       {
         name: 'viewport',
         content: 'width=device-width, initial-scale=1',
-      },
-    ],
-    scripts: [
-      // CRITICAL: Apply theme before first paint to prevent flash
-      // This blocking script runs synchronously before any content renders
-      {
-        children: `
-          (function() {
-            try {
-              const stored = localStorage.getItem('theme');
-              const theme = (stored === 'light' || stored === 'dark')
-                ? stored
-                : (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
-
-              if (theme === 'dark') {
-                document.documentElement.classList.add('dark');
-              }
-            } catch (e) {
-              // Fail silently - don't block page load
-            }
-          })();
-        `,
       },
     ],
     links: [
@@ -75,13 +58,17 @@ export const Route = createRootRoute({
 })
 
 function RootDocument({ children }: { children: ReactNode }) {
+  const { theme } = Route.useLoaderData()
+
   return (
-    <html suppressHydrationWarning>
+    <html className={theme === 'dark' ? 'dark' : ''}>
       <head>
         <HeadContent />
       </head>
-      <body suppressHydrationWarning>
-        <DarkModeProvider>{children}</DarkModeProvider>
+      <body>
+        <DarkModeProvider initialTheme={theme}>
+          {children}
+        </DarkModeProvider>
         <Scripts />
       </body>
     </html>

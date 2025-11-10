@@ -1,35 +1,40 @@
-import { useLayoutEffect, useMemo, useState, type ReactNode } from 'react'
+import { useMemo, useState, type ReactNode } from 'react'
+import { useRouter } from '@tanstack/react-router'
 import { DarkModeContext } from './useDarkMode'
-import { getTheme, setTheme as setThemeUtil, type Theme } from '~/utils/theme'
+import { setThemeServerFn, type Theme } from '~/utils/theme.server'
 
 interface DarkModeProviderProps {
   children: ReactNode
+  initialTheme: Theme  // NEW: from server
 }
 
-export function DarkModeProvider({ children }: DarkModeProviderProps) {
-  // Always start with 'light' for consistent SSR/client hydration
-  // The blocking script in __root.tsx handles the initial visual appearance
-  const [theme, setThemeState] = useState<Theme>('light')
+export function DarkModeProvider({ children, initialTheme }: DarkModeProviderProps) {
+  // Initialize with server-provided theme (no mismatch!)
+  const [theme, setThemeState] = useState<Theme>(initialTheme)
+  const router = useRouter()
 
-  // Sync with localStorage after hydration (useLayoutEffect for minimal flash)
-  useLayoutEffect(() => {
-    setThemeState(getTheme())
-  }, [])
+  // NO useLayoutEffect needed - state is correct from start!
 
-  // Memoize context value to prevent unnecessary re-renders
   const contextValue = useMemo(() => {
-    const setTheme = (newTheme: Theme) => {
+    const setTheme = async (newTheme: Theme) => {
+      // Update local state for immediate UI feedback
       setThemeState(newTheme)
-      setThemeUtil(newTheme)
+
+      // Persist to server (cookie)
+      await setThemeServerFn({ data: { theme: newTheme } })
+
+      // Invalidate router to trigger loader re-run
+      // This will re-render __root.tsx with the new theme className
+      router.invalidate()
     }
 
-    const toggleTheme = () => {
+    const toggleTheme = async () => {
       const newTheme = theme === 'light' ? 'dark' : 'light'
-      setTheme(newTheme)
+      await setTheme(newTheme)
     }
 
     return { theme, toggleTheme, setTheme }
-  }, [theme])
+  }, [theme, router])
 
   return (
     <DarkModeContext.Provider value={contextValue}>

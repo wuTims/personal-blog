@@ -1,10 +1,10 @@
 import { createContext, useContext } from 'react'
-import type { Theme } from '~/utils/theme'
+import type { Theme } from '~/utils/theme.server'  // NEW: from server file
 
 export interface DarkModeContextType {
   theme: Theme
-  toggleTheme: () => void
-  setTheme: (theme: Theme) => void
+  toggleTheme: () => Promise<void>  // NEW: async
+  setTheme: (theme: Theme) => Promise<void>  // NEW: async
 }
 
 export const DarkModeContext = createContext<DarkModeContextType | undefined>(
