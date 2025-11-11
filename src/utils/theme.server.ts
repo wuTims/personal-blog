@@ -2,7 +2,7 @@ import { createServerFn } from '@tanstack/react-start'
 import { getCookie, setCookie } from '@tanstack/react-start/server'
 import { z } from 'zod'
 
-export type Theme = 'light' | 'dark'
+export type Theme = 'light' | 'dark' | 'system'
 
 // Server function to get theme from cookie
 export const getThemeServerFn = createServerFn({
@@ -10,13 +10,12 @@ export const getThemeServerFn = createServerFn({
 }).handler(async () => {
   const theme = getCookie('theme') as Theme | undefined
 
-  // If no cookie, detect from system preference would require client-side logic
-  // So we default to 'light' on server
-  return theme || 'light'
+  // If no cookie, default to 'system' to respect user's OS preference
+  return theme || 'system'
 })
 
 // Server function to set theme cookie
-const themeSchema = z.object({ theme: z.enum(['light', 'dark']) })
+const themeSchema = z.object({ theme: z.enum(['light', 'dark', 'system']) })
 
 export const setThemeServerFn = createServerFn({ method: 'POST' })
   .inputValidator(themeSchema)

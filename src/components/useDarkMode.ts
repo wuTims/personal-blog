@@ -5,6 +5,7 @@ export interface DarkModeContextType {
   theme: Theme
   toggleTheme: () => Promise<void>  // NEW: async
   setTheme: (theme: Theme) => Promise<void>  // NEW: async
+  resolvedTheme: 'light' | 'dark'  // The actual theme being applied (resolves 'system')
 }
 
 export const DarkModeContext = createContext<DarkModeContextType | undefined>(

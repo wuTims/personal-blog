@@ -1,8 +1,8 @@
 import { useDarkMode } from '../useDarkMode'
 
 export function DarkModeToggle() {
-  const { theme, toggleTheme } = useDarkMode()
-  const isDark = theme === 'dark'
+  const { resolvedTheme, toggleTheme } = useDarkMode()
+  const isDark = resolvedTheme === 'dark'
 
   return (
     <button

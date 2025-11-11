@@ -22,6 +22,10 @@ export const Route = createRootRoute({
         name: 'viewport',
         content: 'width=device-width, initial-scale=1',
       },
+      {
+        name: 'theme-color',
+        content: '#ffffff', // Default light theme, will be updated by script/React
+      },
     ],
     links: [
       // Preconnect to Google Fonts with crossorigin for better CORS handling
@@ -60,9 +64,45 @@ export const Route = createRootRoute({
 function RootDocument({ children }: { children: ReactNode }) {
   const { theme } = Route.useLoaderData()
 
+  // For SSR: Only set 'dark' class if explicitly set to 'dark'
+  // If theme is 'system', let the client-side code handle it
+  // suppressHydrationWarning: inline script may add 'dark' class before React hydrates
   return (
-    <html className={theme === 'dark' ? 'dark' : ''}>
+    <html className={theme === 'dark' ? 'dark' : ''} suppressHydrationWarning>
       <head>
+        {/* Inline script to prevent flash of light theme on initial load */}
+        {/* This runs synchronously before page renders */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              (function() {
+                // Check if theme cookie exists
+                const themeCookie = document.cookie
+                  .split('; ')
+                  .find(row => row.startsWith('theme='));
+
+                // If no cookie, detect system preference and apply immediately
+                if (!themeCookie) {
+                  const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+                  const theme = prefersDark ? 'dark' : 'light';
+
+                  // Set data attribute so React can read it during hydration
+                  document.documentElement.setAttribute('data-theme', theme);
+
+                  if (prefersDark) {
+                    document.documentElement.classList.add('dark');
+                  }
+
+                  // Update theme-color meta tag for mobile browsers
+                  const themeColorMeta = document.querySelector('meta[name="theme-color"]');
+                  if (themeColorMeta) {
+                    themeColorMeta.setAttribute('content', prefersDark ? '#0a0a0a' : '#ffffff');
+                  }
+                }
+              })();
+            `,
+          }}
+        />
         <HeadContent />
       </head>
       <body>
