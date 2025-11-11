@@ -6,10 +6,10 @@ const textVariants = cva('font-inter', {
   variants: {
     size: {
       xs: 'text-xs',
-      sm: 'text-sm',
-      base: 'text-base',
-      lg: 'text-lg',
-      xl: 'text-xl',
+      sm: 'text-sm sm:text-base',
+      base: 'text-sm sm:text-base',
+      lg: 'text-base sm:text-lg',
+      xl: 'text-lg sm:text-xl',
     },
     weight: {
       light: 'font-light',

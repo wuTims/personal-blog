@@ -69,12 +69,6 @@ export function DarkModeProvider({ children, initialTheme }: DarkModeProviderPro
     } else {
       html.classList.remove('dark')
     }
-
-    // Update theme-color meta tag for mobile browsers
-    const themeColorMeta = document.querySelector('meta[name="theme-color"]')
-    if (themeColorMeta) {
-      themeColorMeta.setAttribute('content', resolved === 'dark' ? '#0a0a0a' : '#ffffff')
-    }
   }, [theme])
 
   const contextValue = useMemo(() => {

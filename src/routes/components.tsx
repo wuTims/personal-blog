@@ -30,15 +30,15 @@ function SectionFallback() {
 
 function ComponentsShowcase() {
   return (
-    <div className="min-h-screen py-12">
+    <div className="min-h-screen py-8 sm:py-12">
       <Container>
+        <div className="absolute right-4 top-4 sm:right-8 sm:top-8">
+          <DarkModeToggle />
+        </div>
         {/* Header */}
-        <div className="mb-16">
-          <div className="mb-8 flex items-center justify-center">
-            <DarkModeToggle />
-          </div>
+        <div className="mb-12 mt-8 sm:mb-16 sm:mt-0">
           <div className="text-center">
-            <Heading level="h1" className="mb-4">
+            <Heading level="h1" className="mb-3 sm:mb-4">
               Component Library
             </Heading>
             <Text variant="muted" size="lg">
@@ -69,16 +69,16 @@ function ComponentsShowcase() {
         </Suspense>
 
         {/* Footer */}
-        <section className="flex flex-col items-center border-t pt-12">
-          <Text variant="muted">
+        <section className="flex flex-col items-center border-t pt-8 sm:pt-12">
+          <Text variant="muted" className="text-center">
             Component library built with TanStack Start, Tailwind CSS, and CVA
           </Text>
-          <Text variant="muted" size="sm" className="mt-2">
+          <Text variant="muted" size="sm" className="mt-2 text-center">
             Following the ChromaDB design system principles
           </Text>
           <a
             href="/"
-            className="mt-8 rounded-md bg-foreground px-6 py-3 text-background transition-opacity hover:opacity-90"
+            className="mt-6 rounded-md bg-foreground px-6 py-3 text-center text-background transition-opacity hover:opacity-90 sm:mt-8"
           >
             Back to Home
           </a>

@@ -13,8 +13,8 @@ const buttonVariants = cva(
           'bg-white text-foreground hover:bg-neutral-100 border border-neutral-200 transition-colors dark:bg-neutral-300 dark:text-neutral-800 dark:hover:bg-neutral-200',
       },
       size: {
-        default: 'px-4 py-2 text-base',
-        lg: 'px-6 py-3 text-lg',
+        default: 'px-3 py-2 text-sm sm:px-4 sm:text-base',
+        lg: 'px-4 py-2 text-base sm:px-6 sm:py-3 sm:text-lg',
       },
       radius: {
         default: 'rounded-[6px]',

@@ -10,12 +10,12 @@ import {
 
 export function DesignTokensSection() {
   return (
-    <section className="mb-20">
-      <Heading level="h2" className="mb-8 border-b pb-4">
+    <section className="mb-16 sm:mb-20">
+      <Heading level="h2" className="mb-6 border-b pb-3 sm:mb-8 sm:pb-4">
         Design Tokens
       </Heading>
 
-      <div className="grid gap-6 md:grid-cols-2">
+      <div className="grid gap-4 sm:gap-6 md:grid-cols-2">
         {/* Colors */}
         <Card variant="default">
           <CardHeader>

@@ -5,12 +5,12 @@ import { cn } from '~/lib/utils'
 const headingVariants = cva('font-playfair font-semibold', {
   variants: {
     level: {
-      h1: 'text-5xl md:text-[3.5rem] leading-tight',
-      h2: 'text-3xl md:text-[1.875rem] leading-snug',
-      h3: 'text-2xl leading-snug',
-      h4: 'text-xl leading-normal',
-      h5: 'text-lg leading-normal',
-      h6: 'text-base leading-normal',
+      h1: 'text-3xl leading-tight sm:text-4xl md:text-5xl lg:text-[3.5rem]',
+      h2: 'text-2xl leading-snug sm:text-3xl md:text-[1.875rem]',
+      h3: 'text-xl leading-snug sm:text-2xl',
+      h4: 'text-lg leading-normal sm:text-xl',
+      h5: 'text-base leading-normal sm:text-lg',
+      h6: 'text-sm leading-normal sm:text-base',
     },
     weight: {
       light: 'font-light',

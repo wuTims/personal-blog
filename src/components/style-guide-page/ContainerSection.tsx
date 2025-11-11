@@ -2,14 +2,14 @@ import { Card, CardContent, Code, Heading, Text } from '~/components/ui'
 
 export function ContainerSection() {
   return (
-    <section className="mb-20">
-      <Heading level="h2" className="mb-8 border-b pb-4">
+    <section className="mb-16 sm:mb-20">
+      <Heading level="h2" className="mb-6 border-b pb-3 sm:mb-8 sm:pb-4">
         Containers
       </Heading>
 
-      <div className="space-y-6">
+      <div className="space-y-4 sm:space-y-6">
         <div>
-          <Text variant="muted" size="sm" className="mb-3">
+          <Text variant="muted" size="sm" className="mb-2 sm:mb-3">
             Container sizes control max-width and responsive padding:
           </Text>
           <Code variant="block">{`<Container size="sm">Small (640px)</Container>

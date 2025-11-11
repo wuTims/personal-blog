@@ -2,17 +2,17 @@ import { Code, Heading, Text } from '~/components/ui'
 
 export function TypographySection() {
   return (
-    <section className="mb-20">
-      <Heading level="h2" className="mb-8 border-b pb-4">
+    <section className="mb-16 sm:mb-20">
+      <Heading level="h2" className="mb-6 border-b pb-3 sm:mb-8 sm:pb-4">
         Typography
       </Heading>
 
       {/* Headings */}
-      <div className="mb-12">
-        <Heading level="h3" className="mb-6">
+      <div className="mb-8 sm:mb-12">
+        <Heading level="h3" className="mb-4 sm:mb-6">
           Headings
         </Heading>
-        <div className="space-y-4">
+        <div className="space-y-3 sm:space-y-4">
           <Heading level="h1">Heading 1 - Playfair Display</Heading>
           <Heading level="h2">Heading 2 - Playfair Display</Heading>
           <Heading level="h3">Heading 3 - Playfair Display</Heading>
@@ -23,11 +23,11 @@ export function TypographySection() {
       </div>
 
       {/* Text Variants */}
-      <div className="mb-12">
-        <Heading level="h3" className="mb-6">
+      <div className="mb-8 sm:mb-12">
+        <Heading level="h3" className="mb-4 sm:mb-6">
           Text Variants
         </Heading>
-        <div className="space-y-3">
+        <div className="space-y-2 sm:space-y-3">
           <Text size="xl">Extra Large Text - Inter</Text>
           <Text size="lg">Large Text - Inter</Text>
           <Text size="base">Base Text - Inter (Default)</Text>
@@ -37,11 +37,11 @@ export function TypographySection() {
       </div>
 
       {/* Text Colors */}
-      <div className="mb-12">
-        <Heading level="h3" className="mb-6">
+      <div className="mb-8 sm:mb-12">
+        <Heading level="h3" className="mb-4 sm:mb-6">
           Text Colors
         </Heading>
-        <div className="space-y-3">
+        <div className="space-y-2 sm:space-y-3">
           <Text variant="default">Default text color</Text>
           <Text variant="muted">Muted text color (#737373)</Text>
           <Text variant="emerald">Emerald Green (#00855d)</Text>
@@ -53,10 +53,10 @@ export function TypographySection() {
 
       {/* Code */}
       <div>
-        <Heading level="h3" className="mb-6">
+        <Heading level="h3" className="mb-4 sm:mb-6">
           Code
         </Heading>
-        <div className="space-y-6">
+        <div className="space-y-4 sm:space-y-6">
           <div>
             <Text variant="muted" size="sm" className="mb-2">
               Inline Code:

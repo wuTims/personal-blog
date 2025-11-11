@@ -13,9 +13,9 @@ const cardVariants = cva(
       },
       padding: {
         none: 'p-0',
-        sm: 'p-3',
-        default: 'p-5',
-        lg: 'p-8',
+        sm: 'p-2 sm:p-3',
+        default: 'p-4 sm:p-5',
+        lg: 'p-6 sm:p-8',
       },
       radius: {
         sm: 'rounded-[2px]',
@@ -55,7 +55,7 @@ const CardHeader = React.memo(
     ({ className, ...props }, ref) => (
       <div
         ref={ref}
-        className={cn('flex flex-col space-y-1.5', className)}
+        className={cn('flex flex-col space-y-1 sm:space-y-1.5', className)}
         {...props}
       />
     )
@@ -68,7 +68,7 @@ const CardTitle = React.memo(
     ({ className, ...props }, ref) => (
       <h3
         ref={ref}
-        className={cn('text-xl font-semibold leading-none tracking-tight', className)}
+        className={cn('text-lg font-semibold leading-none tracking-tight sm:text-xl', className)}
         {...props}
       />
     )
@@ -99,7 +99,7 @@ const CardFooter = React.memo(
     ({ className, ...props }, ref) => (
       <div
         ref={ref}
-        className={cn('flex items-center pt-0 mt-6', className)}
+        className={cn('flex items-center pt-0 mt-4 sm:mt-6', className)}
         {...props}
       />
     )

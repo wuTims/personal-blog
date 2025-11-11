@@ -7,7 +7,7 @@ export function DarkModeToggle() {
   return (
     <button
       onClick={toggleTheme}
-      className={`relative inline-flex h-8 w-16 items-center rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-brush focus:ring-offset-2 dark:focus:ring-offset-background ${
+      className={`relative inline-flex h-7 w-14 items-center rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-brush focus:ring-offset-2 sm:h-8 sm:w-16 dark:focus:ring-offset-background ${
         isDark ? 'bg-blue-400' : 'bg-neutral-300'
       }`}
       aria-label="Toggle dark mode"
@@ -15,13 +15,13 @@ export function DarkModeToggle() {
       type="button"
     >
       <span
-        className={`inline-block h-6 w-6 transform rounded-full bg-white shadow-lg transition-transform duration-200 ${
-          isDark ? 'translate-x-9' : 'translate-x-1'
+        className={`inline-block h-5 w-5 transform rounded-full bg-white shadow-lg transition-transform duration-200 sm:h-6 sm:w-6 ${
+          isDark ? 'translate-x-8 sm:translate-x-9' : 'translate-x-1'
         }`}
       >
         {/* Sun Icon */}
         <svg
-          className={`absolute inset-0 h-6 w-6 p-1 text-yellow-500 transition-opacity duration-200 ${
+          className={`absolute inset-0 h-5 w-5 p-0.5 text-yellow-500 transition-opacity duration-200 sm:h-6 sm:w-6 sm:p-1 ${
             isDark ? 'opacity-0' : 'opacity-100'
           }`}
           fill="currentColor"
@@ -38,7 +38,7 @@ export function DarkModeToggle() {
 
         {/* Moon Icon */}
         <svg
-          className={`absolute inset-0 h-6 w-6 p-1 text-slate-700 transition-opacity duration-200 ${
+          className={`absolute inset-0 h-5 w-5 p-0.5 text-slate-700 transition-opacity duration-200 sm:h-6 sm:w-6 sm:p-1 ${
             isDark ? 'opacity-100' : 'opacity-0'
           }`}
           fill="currentColor"
