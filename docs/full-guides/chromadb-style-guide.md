@@ -4,6 +4,7 @@
 
 The ChromaDB website employs a modern, minimalist design aesthetic that combines elegant serif typography with clean, functional interface elements. The design philosophy centers around:
 
+- **Mobile-First Responsive Design**: Built with Tailwind's mobile-first methodology, ensuring optimal experience on all devices starting from mobile
 - **Clarity and Readability**: High contrast ratios with predominantly black text on white/off-white backgrounds
 - **Mac-Style Card Design**: Cards feature distinctive offset shadows (brutalist/neo-brutalist style) that create depth and visual interest
 - **Progressive Enhancement**: Subtle hover states and transitions that enhance interactivity without overwhelming the user
@@ -11,10 +12,12 @@ The ChromaDB website employs a modern, minimalist design aesthetic that combines
 - **Technical Sophistication**: Monospace fonts and code styling that appeal to the developer audience
 
 ### Design Philosophy
+- **Mobile-first by default** - All components start with mobile design and scale up progressively
 - Minimalist and functional with just enough personality
 - Focus on content hierarchy and scannability
 - Subtle color accents on interaction (hover states)
 - Professional yet approachable tone
+- Responsive text centering and spacing that adapts to screen size
 
 ---
 
@@ -1540,213 +1543,262 @@ Tailwind v4-style @property declarations for advanced features:
 
 ## 14. Responsive Design Patterns
 
-### Breakpoint System
+### Mobile-First Design Philosophy
 
-The site uses two main breakpoints:
+**IMPORTANT: This design system follows Tailwind's mobile-first methodology.**
+
+All base styles target mobile devices first, then progressively enhance for larger screens using min-width breakpoints. This approach ensures optimal performance and user experience on mobile devices while gracefully scaling up to tablets and desktops.
+
+**Core Principles:**
+1. **Mobile by default** - Base classes apply to all screen sizes
+2. **Progressive enhancement** - Add breakpoint prefixes to modify for larger screens
+3. **Content-first** - Mobile constraints force focus on essential content
+4. **Performance** - Smaller screens load minimal styles first
+
+### Tailwind Breakpoint System
+
+The site uses Tailwind's standard mobile-first breakpoints:
 
 ```css
-/* Mobile-first approach */
-/* Base styles: < 768px */
+/* Mobile-first breakpoints (min-width) */
+/* Base styles: 0px and up (no prefix needed) */
 
-@media (min-width: 768px) {
-    /* Tablet and up */
-}
+sm:  640px   /* Small tablets and up */
+md:  768px   /* Tablets and up */
+lg:  1024px  /* Laptops and up */
+xl:  1280px  /* Desktops and up */
+2xl: 1536px  /* Large desktops and up */
+```
 
-@media (max-width: 768px) {
-    /* Mobile overrides */
-}
+**Usage Pattern:**
+```tsx
+// Mobile: text-sm (14px)
+// Small screens+: text-base (16px)
+// Medium screens+: text-lg (18px)
+className="text-sm sm:text-base md:text-lg"
 
-@media (max-width: 1024px) {
-    /* Tablet overrides */
-}
+// Mobile: padding 1rem
+// Small screens+: padding 1.5rem
+className="p-4 sm:p-6"
 ```
 
 ### Layout Adaptations
 
-**Feature Cards Grid:**
-```css
-/* Desktop: 4 columns */
-.feature-cards {
-    grid-template-columns: repeat(4, 1fr);
+**Mobile-First Grid Patterns:**
+
+All grids start with mobile layout and scale up. Use Tailwind's grid utilities with breakpoint prefixes:
+
+```tsx
+// Feature Cards Grid: 1 column → 2 columns → 4 columns
+<div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
+  {/* cards */}
+</div>
+
+// Features Grid: 1 column → 3 columns
+<div className="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6">
+  {/* features */}
+</div>
+
+// Bottom Sections: 1 column → 2 columns
+<div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-16">
+  {/* sections */}
+</div>
+```
+
+**Mobile-First Flexbox Patterns:**
+
+```tsx
+// Deploy Card: Column → Row
+<div className="flex flex-col md:flex-row">
+  <div className="flex-none w-full md:w-[45%]">
+    {/* content */}
+  </div>
+  <div className="flex-1">
+    {/* code/image */}
+  </div>
+</div>
+
+// Navigation: Column → Row
+<nav className="flex flex-col md:flex-row items-center justify-between gap-4 md:gap-8">
+  {/* nav items */}
+</nav>
+```
+
+### Mobile-First Typography Scaling
+
+**Heading Component (Mobile-First):**
+
+All typography scales progressively from mobile to desktop:
+
+```tsx
+// H1: 3xl → 4xl → 5xl → custom
+<Heading level="h1" className="text-3xl sm:text-4xl md:text-5xl lg:text-[3.5rem]" />
+
+// H2: 2xl → 3xl → custom
+<Heading level="h2" className="text-2xl sm:text-3xl md:text-[1.875rem]" />
+
+// H3: xl → 2xl
+<Heading level="h3" className="text-xl sm:text-2xl" />
+```
+
+**Text Component (Mobile-First):**
+
+```tsx
+// Base text sizes with responsive scaling
+size="sm"   → text-sm sm:text-base       (14px → 16px)
+size="base" → text-sm sm:text-base       (14px → 16px)
+size="lg"   → text-base sm:text-lg       (16px → 18px)
+size="xl"   → text-lg sm:text-xl         (18px → 20px)
+```
+
+**Manual Typography Scaling:**
+
+```tsx
+// Paragraph text: smaller on mobile, standard on desktop
+<p className="text-sm sm:text-base">Content text</p>
+
+// Hero heading: progressive scaling
+<h1 className="text-3xl font-bold sm:text-4xl md:text-5xl lg:text-6xl">
+  Hero Title
+</h1>
+```
+
+### Mobile-First Spacing Patterns
+
+**Padding and Margins:**
+
+```tsx
+// Container padding: 1rem → 1.5rem
+<Container className="px-4 sm:px-6" />
+
+// Section spacing: 2rem → 3rem → 5rem
+<section className="py-8 sm:py-12 md:py-20" />
+
+// Element margins: 0.75rem → 1rem
+<div className="mb-3 sm:mb-4" />
+
+// Gap between elements: 0.75rem → 1rem
+<div className="flex gap-3 sm:gap-4" />
+```
+
+**Component Spacing:**
+
+```tsx
+// Card padding scales with screen size
+padding: {
+  none: 'p-0',
+  sm: 'p-2 sm:p-3',           // 0.5rem → 0.75rem
+  default: 'p-4 sm:p-5',       // 1rem → 1.25rem
+  lg: 'p-6 sm:p-8',           // 1.5rem → 2rem
 }
 
-/* Tablet: 2 columns */
-@media (max-width: 1024px) {
-    .feature-cards {
-        grid-template-columns: repeat(2, 1fr);
-    }
-}
-
-/* Mobile: 1 column */
-@media (max-width: 768px) {
-    .feature-cards {
-        grid-template-columns: 1fr;
-    }
+// Button padding scales with screen size
+size: {
+  default: 'px-3 py-2 text-sm sm:px-4 sm:text-base',
+  lg: 'px-4 py-2 text-base sm:px-6 sm:py-3 sm:text-lg',
 }
 ```
 
-**Features Grid:**
-```css
-/* Desktop: 3 columns */
-.features-grid {
-    grid-template-columns: repeat(3, 1fr);
-}
+### Mobile-First Component Examples
 
-/* Tablet & Mobile: 1 column */
-@media (max-width: 1024px) {
-    .features-grid {
-        grid-template-columns: 1fr;
-    }
-}
+**Home Page (Mobile-First):**
+
+```tsx
+<div className="flex min-h-screen flex-col items-center justify-center px-4 sm:px-6">
+  {/* Dark mode toggle: smaller positioning on mobile */}
+  <div className="absolute right-4 top-4 sm:right-8 sm:top-8">
+    <DarkModeToggle />
+  </div>
+
+  {/* Heading: progressive text scaling */}
+  <h1 className="text-center text-3xl font-bold sm:text-4xl md:text-5xl">
+    Welcome to Tim's Blog
+  </h1>
+
+  {/* Centered text on all screen sizes */}
+  <p className="mt-4 text-center text-muted">
+    Work in progress...
+  </p>
+
+  {/* Button with centered text */}
+  <a href="/components" className="mt-6 px-6 py-3 text-center sm:mt-8">
+    View Components
+  </a>
+</div>
 ```
 
-**Bottom Sections:**
-```css
-/* Desktop: 2 columns */
-.bottom-sections {
-    grid-template-columns: 1fr 1fr;
-    gap: 4rem;
-}
+**Style Guide Sections (Mobile-First):**
 
-/* Mobile: 1 column */
-@media (max-width: 768px) {
-    .bottom-sections {
-        grid-template-columns: 1fr;
-        gap: 2rem;
-    }
-}
+```tsx
+<section className="mb-16 sm:mb-20">
+  {/* Section heading with scaled spacing */}
+  <Heading level="h2" className="mb-6 border-b pb-3 sm:mb-8 sm:pb-4">
+    Typography
+  </Heading>
+
+  {/* Subsection with scaled spacing */}
+  <div className="mb-8 sm:mb-12">
+    <Heading level="h3" className="mb-4 sm:mb-6">
+      Headings
+    </Heading>
+
+    {/* Content with scaled gap */}
+    <div className="space-y-3 sm:space-y-4">
+      {/* items */}
+    </div>
+  </div>
+</section>
 ```
 
-**Deploy Cards:**
-```css
-/* Desktop: auto-fit with min 450px */
-.deploy-grid {
-    grid-template-columns: repeat(auto-fit, minmax(450px, 1fr));
-}
+**Card Components (Mobile-First):**
 
-/* Tablet: 1 column */
-@media (max-width: 1024px) {
-    .deploy-grid {
-        grid-template-columns: 1fr;
-    }
+```tsx
+// Card with responsive padding
+<Card className="p-4 sm:p-5">
+  <CardHeader className="space-y-1 sm:space-y-1.5">
+    {/* Title scales from lg to xl */}
+    <CardTitle className="text-lg sm:text-xl">Title</CardTitle>
+  </CardHeader>
 
-    /* Stack vertically within card */
-    .deploy-card {
-        flex-direction: column;
-        max-width: 100%;
-    }
-
-    .deploy-content {
-        flex: 1 1 auto;
-    }
-}
+  <CardFooter className="mt-4 sm:mt-6">
+    <Button size="default">Action</Button>
+  </CardFooter>
+</Card>
 ```
 
-### Typography Scaling
+### Mobile-First Responsive Patterns Summary
 
-```css
-/* Desktop */
-h1 {
-    font-size: 3.5rem;
-}
+**ALWAYS follow these mobile-first principles:**
 
-/* Mobile */
-@media (max-width: 768px) {
-    h1 {
-        font-size: 2.5rem;
-    }
-}
+1. **Start with Mobile** - Write base styles for mobile first, no breakpoint prefix
+2. **Progressive Enhancement** - Add `sm:`, `md:`, `lg:` prefixes to scale up
+3. **Single Column by Default** - Use `grid-cols-1` then scale to `sm:grid-cols-2`, `md:grid-cols-3`, etc.
+4. **Flex Column First** - Use `flex-col` then scale to `md:flex-row`
+5. **Smaller Text First** - Start with `text-sm` or `text-base`, scale to `sm:text-lg`, `md:text-xl`
+6. **Tighter Spacing First** - Start with `gap-3` or `p-4`, scale to `sm:gap-4`, `sm:p-6`
+7. **Text Centering** - Always include `text-center` for mobile when text should be centered
+8. **Touch Targets** - Ensure buttons have adequate padding on mobile (min 2.5rem height)
+
+**Common Mobile-First Patterns:**
+
+```tsx
+// Grid: 1 column → 2 columns → 3 columns
+className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3"
+
+// Flex: Column → Row
+className="flex flex-col md:flex-row"
+
+// Typography: Small → Medium → Large
+className="text-sm sm:text-base md:text-lg"
+
+// Spacing: Tight → Normal → Loose
+className="gap-3 sm:gap-4 md:gap-6"
+className="p-4 sm:p-6 md:p-8"
+className="mb-3 sm:mb-4 md:mb-6"
+
+// Positioning: Small offsets → Large offsets
+className="right-4 top-4 sm:right-8 sm:top-8"
 ```
-
-### Navigation Responsiveness
-
-```css
-/* Desktop: Horizontal layout */
-nav {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 1rem 3rem;
-}
-
-/* Mobile: Vertical stack */
-@media (max-width: 768px) {
-    nav {
-        flex-direction: column;
-        gap: 1rem;
-    }
-}
-```
-
-### Video Feature Layout
-
-```css
-/* Mobile: Column */
-.video-feature {
-    display: flex;
-    flex-direction: column;
-    gap: 1.5rem;
-}
-
-/* Tablet+: Row */
-@media (min-width: 768px) {
-    .video-feature {
-        flex-direction: row;
-        gap: 2rem;
-    }
-}
-
-/* Thumbnail sizing */
-.video-thumbnail {
-    width: 280px;
-    height: 160px;
-}
-
-@media (max-width: 768px) {
-    .video-thumbnail {
-        width: 100%;
-        max-width: 280px;
-    }
-}
-```
-
-### Link List Responsiveness
-
-```css
-/* Mobile: Vertical */
-.link-list-secondary {
-    flex-direction: column;
-    gap: 1rem;
-}
-
-/* Desktop: Horizontal */
-@media (min-width: 768px) {
-    .link-list-secondary {
-        flex-direction: row;
-    }
-}
-
-/* Separator visibility */
-.separator {
-    display: none;
-}
-
-@media (min-width: 768px) {
-    .separator {
-        display: block;
-    }
-}
-```
-
-### Responsive Patterns Summary
-
-1. **Grid Simplification**: Multi-column grids collapse to single column on mobile
-2. **Flexbox Direction**: Row layouts become column layouts on mobile
-3. **Typography Scaling**: Reduce heading sizes for mobile viewports
-4. **Spacing Reduction**: Decrease gaps and padding on smaller screens
-5. **Navigation Stacking**: Horizontal nav becomes vertical on mobile
-6. **Content Reflow**: Side-by-side content stacks vertically
-7. **Image Adaptation**: Fixed widths become fluid with max-width constraints
 
 ---
 
@@ -2370,6 +2422,17 @@ className="bg-white dark:bg-[#262626]"
 
 ## Quick Reference
 
+### Mobile-First Breakpoints
+
+```
+Base (0px+):    No prefix - mobile default
+sm (640px+):    sm: - small tablets and up
+md (768px+):    md: - tablets and up
+lg (1024px+):   lg: - laptops and up
+xl (1280px+):   xl: - desktops and up
+2xl (1536px+):  2xl: - large desktops and up
+```
+
 ### Most Common Values
 
 **Colors (Light Mode):**
@@ -2384,15 +2447,18 @@ className="bg-white dark:bg-[#262626]"
 - Border: `#262626` (subtle), `#fff` (emphasis)
 - Muted: `#a3a3a3`
 
-**Spacing:**
-- Base: `calc(var(--spacing) * n)` where --spacing = 0.25rem
-- Common: 8px, 12px, 16px, 20px, 24px, 32px
+**Spacing (Mobile-First):**
+- Padding: `px-4 sm:px-6` (1rem → 1.5rem)
+- Margin: `mb-3 sm:mb-4` (0.75rem → 1rem)
+- Gap: `gap-3 sm:gap-4` (0.75rem → 1rem)
+- Section: `py-8 sm:py-12 md:py-20` (2rem → 3rem → 5rem)
 
-**Typography:**
-- Body: 16px Inter, 1.5 line-height
-- Small: 14px
-- Headings: Playfair Display, 400 weight
-- Code: IBM Plex Mono, 14px
+**Typography (Mobile-First):**
+- H1: `text-3xl sm:text-4xl md:text-5xl` (30px → 36px → 48px)
+- H2: `text-2xl sm:text-3xl` (24px → 30px)
+- H3: `text-xl sm:text-2xl` (20px → 24px)
+- Body: `text-sm sm:text-base` (14px → 16px)
+- Large: `text-base sm:text-lg` (16px → 18px)
 
 **Border Radius:**
 - Cards: 2px
@@ -2410,6 +2476,37 @@ className="bg-white dark:bg-[#262626]"
 **Transitions:**
 - Duration: `0.3s`
 - Timing: `ease`
+
+### Mobile-First Component Patterns
+
+**Text Alignment:**
+```tsx
+// Always center text on mobile when needed
+className="text-center"
+```
+
+**Responsive Grids:**
+```tsx
+// 1 column → 2 columns → 4 columns
+className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6"
+```
+
+**Responsive Flex:**
+```tsx
+// Column → Row
+className="flex flex-col md:flex-row gap-4 md:gap-8"
+```
+
+**Responsive Sizing:**
+```tsx
+// Button sizing
+size="default" → px-3 py-2 text-sm sm:px-4 sm:text-base
+size="lg"      → px-4 py-2 text-base sm:px-6 sm:py-3 sm:text-lg
+
+// Card padding
+padding="default" → p-4 sm:p-5
+padding="lg"      → p-6 sm:p-8
+```
 
 ---
 
