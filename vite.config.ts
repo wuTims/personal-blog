@@ -1,5 +1,6 @@
 import { defineConfig } from 'vite'
 import { tanstackStart } from '@tanstack/react-start/plugin/vite'
+import { cloudflare } from '@cloudflare/vite-plugin'
 import viteReact from '@vitejs/plugin-react'
 import tsConfigPaths from 'vite-tsconfig-paths'
 
@@ -15,6 +16,19 @@ export default defineConfig({
     tanstackStart({
       srcDirectory: 'src',
     }),
+    cloudflare({
+      configPath: './wrangler.jsonc',
+      viteEnvironment: { name: 'ssr' },
+      persistState: true,
+    }),
     viteReact(),
   ],
+  ssr: {
+    target: 'webworker',
+    noExternal: true,
+    resolve: {
+      conditions: ['workerd', 'worker', 'browser'],
+      externalConditions: ['workerd', 'worker'],
+    },
+  },
 })
