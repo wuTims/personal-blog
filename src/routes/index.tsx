@@ -11,9 +11,18 @@ function HomeComponent() {
       <div className="absolute right-8 top-8">
         <DarkModeToggle />
       </div>
-      <h1 className="text-5xl font-bold">Welcome to TanStack Start</h1>
+      <h1 className="text-5xl font-bold">Welcome to Tim's Blog</h1>
       <p className="mt-4 text-muted">
-        Your blog is being built with shared components
+        Work in progress...
+      </p>
+      <p className="mt-4 text-muted">
+        Generated style guide components based on <a
+          href="https://www.trychroma.com/"
+          target="_blank"
+          className="text-sky"
+        >
+          ChromaDB
+        </a>
       </p>
       <a
         href="/components"

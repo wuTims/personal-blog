@@ -1,6 +1,6 @@
 import { createFileRoute } from '@tanstack/react-router'
 import { lazy, Suspense } from 'react'
-import { Button, Container, DarkModeToggle, Heading, Text } from '~/components/ui'
+import { Container, DarkModeToggle, Heading, Text } from '~/components/ui'
 
 // Lazy load sections for better code splitting and performance
 const TypographySection = lazy(() =>
@@ -69,16 +69,19 @@ function ComponentsShowcase() {
         </Suspense>
 
         {/* Footer */}
-        <section className="border-t pt-12 text-center">
+        <section className="flex flex-col items-center border-t pt-12">
           <Text variant="muted">
             Component library built with TanStack Start, Tailwind CSS, and CVA
           </Text>
           <Text variant="muted" size="sm" className="mt-2">
             Following the ChromaDB design system principles
           </Text>
-          <Button variant="primary" size="lg" className="mt-8">
-            <a href="/">Back to Home</a>
-          </Button>
+          <a
+            href="/"
+            className="mt-8 rounded-md bg-foreground px-6 py-3 text-background transition-opacity hover:opacity-90"
+          >
+            Back to Home
+          </a>
         </section>
       </Container>
     </div>
