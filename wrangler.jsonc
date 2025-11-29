@@ -5,7 +5,7 @@
   // Get it from: https://dash.cloudflare.com/ (right sidebar)
   "account_id": "5d3860a4583a97c04f8fe2d96bd36852",
   "compatibility_date": "2025-01-11",
-  "compatibility_flags": ["nodejs_compat_v2"],
+  "compatibility_flags": ["nodejs_compat"],
   "main": "@tanstack/react-start/server-entry",
   "dev": {
     "ip": "0.0.0.0",
