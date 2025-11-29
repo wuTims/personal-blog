@@ -1,6 +1,6 @@
 import { createFileRoute } from '@tanstack/react-router'
 import { lazy, Suspense } from 'react'
-import { Container, DarkModeToggle, Heading, Text } from '~/components/ui'
+import { Container, Heading, Text } from '~/components/ui'
 
 // Lazy load sections for better code splitting and performance
 const TypographySection = lazy(() =>
@@ -12,11 +12,20 @@ const ButtonsSection = lazy(() =>
 const CardsSection = lazy(() =>
   import('~/components/style-guide-page/CardsSection').then(m => ({ default: m.CardsSection }))
 )
+const NavbarSection = lazy(() =>
+  import('~/components/style-guide-page/NavbarSection').then(m => ({ default: m.NavbarSection }))
+)
 const ContainerSection = lazy(() =>
   import('~/components/style-guide-page/ContainerSection').then(m => ({ default: m.ContainerSection }))
 )
+const DarkModeToggleSection = lazy(() =>
+  import('~/components/style-guide-page/DarkModeToggleSection').then(m => ({ default: m.DarkModeToggleSection }))
+)
 const DesignTokensSection = lazy(() =>
   import('~/components/style-guide-page/DesignTokensSection').then(m => ({ default: m.DesignTokensSection }))
+)
+const SocialLinksSection = lazy(() =>
+  import('~/components/style-guide-page/SocialLinksSection').then(m => ({ default: m.SocialLinksSection }))
 )
 
 export const Route = createFileRoute('/components')({
@@ -30,11 +39,8 @@ function SectionFallback() {
 
 function ComponentsShowcase() {
   return (
-    <div className="min-h-screen py-8 sm:py-12">
+    <div className="py-8 sm:py-12">
       <Container>
-        <div className="absolute right-4 top-4 sm:right-8 sm:top-8">
-          <DarkModeToggle />
-        </div>
         {/* Header */}
         <div className="mb-12 mt-8 sm:mb-16 sm:mt-0">
           <div className="text-center">
@@ -57,7 +63,19 @@ function ComponentsShowcase() {
         </Suspense>
 
         <Suspense fallback={<SectionFallback />}>
+          <DarkModeToggleSection />
+        </Suspense>
+
+        <Suspense fallback={<SectionFallback />}>
+          <SocialLinksSection />
+        </Suspense>
+
+        <Suspense fallback={<SectionFallback />}>
           <CardsSection />
+        </Suspense>
+
+        <Suspense fallback={<SectionFallback />}>
+          <NavbarSection />
         </Suspense>
 
         <Suspense fallback={<SectionFallback />}>
