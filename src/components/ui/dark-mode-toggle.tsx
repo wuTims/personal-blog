@@ -1,54 +1,123 @@
+import { cva, type VariantProps } from 'class-variance-authority'
+import { Moon, Sun } from 'lucide-react'
+import * as React from 'react'
+import { flushSync } from 'react-dom'
+import { cn } from '~/lib/utils'
 import { useDarkMode } from '../useDarkMode'
 
-export function DarkModeToggle() {
-  const { resolvedTheme, toggleTheme } = useDarkMode()
-  const isDark = resolvedTheme === 'dark'
+/* ============================================
+   DarkModeToggle Component
+   - Uses View Transitions API for radial clip-path animation
+   - Falls back gracefully when not supported
+   ============================================ */
 
-  return (
-    <button
-      onClick={toggleTheme}
-      className={`relative inline-flex h-7 w-14 items-center rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-brush focus:ring-offset-2 sm:h-8 sm:w-16 dark:focus:ring-offset-background ${
-        isDark ? 'bg-blue-400' : 'bg-neutral-300'
-      }`}
-      aria-label="Toggle dark mode"
-      aria-pressed={isDark}
-      type="button"
-    >
-      <span
-        className={`inline-block h-5 w-5 transform rounded-full bg-white shadow-lg transition-transform duration-200 sm:h-6 sm:w-6 ${
-          isDark ? 'translate-x-8 sm:translate-x-9' : 'translate-x-1'
-        }`}
-      >
-        {/* Sun Icon */}
-        <svg
-          className={`absolute inset-0 h-5 w-5 p-0.5 text-yellow-500 transition-opacity duration-200 sm:h-6 sm:w-6 sm:p-1 ${
-            isDark ? 'opacity-0' : 'opacity-100'
-          }`}
-          fill="currentColor"
-          viewBox="0 0 20 20"
-          xmlns="http://www.w3.org/2000/svg"
-          aria-hidden="true"
-        >
-          <path
-            fillRule="evenodd"
-            d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z"
-            clipRule="evenodd"
-          />
-        </svg>
+const darkModeToggleVariants = cva(
+  [
+    'group relative inline-flex items-center justify-center',
+    'rounded-full transition-colors cursor-pointer',
+    'focus:outline-none focus:ring-2 focus:ring-neutral-500 focus:ring-offset-2',
+    'dark:focus:ring-offset-neutral-900',
+  ],
+  {
+    variants: {
+      variant: {
+        default:
+          'bg-neutral-100 text-neutral-900 hover:bg-neutral-200 dark:bg-neutral-800 dark:text-neutral-100 dark:hover:bg-neutral-700',
+        ghost:
+          'bg-transparent text-neutral-900 hover:bg-neutral-100 dark:text-neutral-100 dark:hover:bg-neutral-800',
+        outline:
+          'bg-transparent text-neutral-900 border border-neutral-300 hover:bg-neutral-100 dark:text-neutral-100 dark:border-neutral-700 dark:hover:bg-neutral-800',
+      },
+      size: {
+        sm: 'h-8 w-8',
+        default: 'h-10 w-10',
+        lg: 'h-12 w-12',
+      },
+    },
+    defaultVariants: {
+      variant: 'default',
+      size: 'default',
+    },
+  }
+)
 
-        {/* Moon Icon */}
-        <svg
-          className={`absolute inset-0 h-5 w-5 p-0.5 text-slate-700 transition-opacity duration-200 sm:h-6 sm:w-6 sm:p-1 ${
-            isDark ? 'opacity-100' : 'opacity-0'
-          }`}
-          fill="currentColor"
-          viewBox="0 0 20 20"
-          xmlns="http://www.w3.org/2000/svg"
-          aria-hidden="true"
+export interface DarkModeToggleProps
+  extends Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, 'children'>,
+    VariantProps<typeof darkModeToggleVariants> {}
+
+const DarkModeToggle = React.memo(
+  React.forwardRef<HTMLButtonElement, DarkModeToggleProps>(
+    ({ className, variant, size, ...props }, ref) => {
+      const { resolvedTheme, setTheme } = useDarkMode()
+      const isDark = resolvedTheme === 'dark'
+
+      const toggleTheme = async (e: React.MouseEvent<HTMLButtonElement>) => {
+        const newTheme = isDark ? 'light' : 'dark'
+
+        // Check if View Transitions API is supported
+        if (
+          !document.startViewTransition ||
+          window.matchMedia('(prefers-reduced-motion: reduce)').matches
+        ) {
+          await setTheme(newTheme)
+          return
+        }
+
+        // Get click coordinates for radial animation origin
+        const x = e.clientX
+        const y = e.clientY
+
+        // Calculate the radius needed to cover the entire screen
+        const endRadius = Math.hypot(
+          Math.max(x, innerWidth - x),
+          Math.max(y, innerHeight - y)
+        )
+
+        // Start view transition with radial clip-path animation
+        const transition = document.startViewTransition(async () => {
+          flushSync(() => {
+            setTheme(newTheme)
+          })
+        })
+
+        transition.ready.then(() => {
+          const clipPath = [
+            `circle(0px at ${x}px ${y}px)`,
+            `circle(${endRadius}px at ${x}px ${y}px)`,
+          ]
+
+          document.documentElement.animate(
+            {
+              clipPath: isDark ? [...clipPath].reverse() : clipPath,
+            },
+            {
+              duration: 500,
+              easing: 'ease-in-out',
+              pseudoElement: isDark
+                ? '::view-transition-old(root)'
+                : '::view-transition-new(root)',
+            }
+          )
+        })
+      }
+
+      return (
+        <button
+          ref={ref}
+          onClick={toggleTheme}
+          className={cn(darkModeToggleVariants({ variant, size, className }))}
+          aria-label={isDark ? 'Switch to light mode' : 'Switch to dark mode'}
+          type="button"
+          {...props}
         >
-          <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z" />
-        </svg>
-      </span>
-    </button>
+          <Sun className="h-5 w-5 rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
+          <Moon className="absolute h-5 w-5 rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
+          <span className="sr-only">Toggle theme</span>
+        </button>
+      )
+    }
   )
-}
+)
+DarkModeToggle.displayName = 'DarkModeToggle'
+
+export { DarkModeToggle, darkModeToggleVariants }
