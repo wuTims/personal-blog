@@ -5,9 +5,11 @@ import {
   Navbar,
   NavbarBrand,
   NavbarContent,
-  NavbarToggle,
-  NavbarMenu,
+  NavbarToggleAnimated,
+  NavbarSidebar,
+  NavbarSidebarContent,
   navbarLinkVariants,
+  navbarSidebarLinkVariants,
 } from '~/components/ui'
 
 interface SiteNavbarProps {
@@ -27,54 +29,65 @@ export function SiteNavbar({ className }: SiteNavbarProps) {
   const [isOpen, setIsOpen] = useState(false)
 
   return (
-    <Navbar variant="glass" sticky className={className}>
-      <NavbarBrand href="/">tim</NavbarBrand>
+    <>
+      <Navbar variant="glass" sticky className={className}>
+        <NavbarBrand href="/">tim</NavbarBrand>
 
-      {/* Desktop Menu */}
-      <NavbarContent hideOnMobile gap="default">
-        {navLinks.map((link) => (
-          <Link
-            key={link.to}
-            to={link.to}
-            className={navbarLinkVariants({ variant: link.variant })}
-            inactiveProps={{
-              className: navbarLinkVariants({ variant: link.variant, active: false }),
-            }}
-            activeProps={{
-              className: navbarLinkVariants({ variant: link.variant, active: true }),
-            }}
-          >
-            {link.label}
-          </Link>
-        ))}
-        <DarkModeToggle size="sm" variant="ghost" />
-      </NavbarContent>
+        {/* Desktop Menu */}
+        <NavbarContent hideOnMobile gap="default">
+          {navLinks.map((link) => (
+            <Link
+              key={link.to}
+              to={link.to}
+              className={navbarLinkVariants({ variant: link.variant })}
+              inactiveProps={{
+                className: navbarLinkVariants({ variant: link.variant, active: false }),
+              }}
+              activeProps={{
+                className: navbarLinkVariants({ variant: link.variant, active: true }),
+              }}
+            >
+              {link.label}
+            </Link>
+          ))}
+          <DarkModeToggle size="sm" variant="ghost" />
+        </NavbarContent>
 
-      {/* Mobile Controls */}
-      <div className="flex items-center gap-2 sm:hidden">
-        <DarkModeToggle size="sm" variant="ghost" />
-        <NavbarToggle isOpen={isOpen} onClick={() => setIsOpen(!isOpen)} />
-      </div>
+        {/* Mobile Controls - Toggle stays in navbar for seamless animation */}
+        <div className="flex items-center gap-2 sm:hidden">
+          <DarkModeToggle size="sm" variant="ghost" />
+          <NavbarToggleAnimated
+            isOpen={isOpen}
+            onClick={() => setIsOpen(!isOpen)}
+          />
+        </div>
+      </Navbar>
 
-      {/* Mobile Menu */}
-      <NavbarMenu isOpen={isOpen}>
-        {navLinks.map((link) => (
-          <Link
-            key={link.to}
-            to={link.to}
-            className={navbarLinkVariants({ variant: link.variant, size: 'lg' })}
-            inactiveProps={{
-              className: navbarLinkVariants({ variant: link.variant, size: 'lg', active: false }),
-            }}
-            activeProps={{
-              className: navbarLinkVariants({ variant: link.variant, size: 'lg', active: true }),
-            }}
-            onClick={() => setIsOpen(false)}
-          >
-            {link.label}
-          </Link>
-        ))}
-      </NavbarMenu>
-    </Navbar>
+      {/* Mobile Sidebar - Slides in from right */}
+      <NavbarSidebar
+        isOpen={isOpen}
+        onClose={() => setIsOpen(false)}
+        position="right"
+      >
+        <NavbarSidebarContent>
+          {navLinks.map((link) => (
+            <Link
+              key={link.to}
+              to={link.to}
+              className={navbarSidebarLinkVariants({ variant: link.variant })}
+              inactiveProps={{
+                className: navbarSidebarLinkVariants({ variant: link.variant, active: false }),
+              }}
+              activeProps={{
+                className: navbarSidebarLinkVariants({ variant: link.variant, active: true }),
+              }}
+              onClick={() => setIsOpen(false)}
+            >
+              {link.label}
+            </Link>
+          ))}
+        </NavbarSidebarContent>
+      </NavbarSidebar>
+    </>
   )
 }

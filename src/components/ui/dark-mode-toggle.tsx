@@ -81,21 +81,19 @@ const DarkModeToggle = React.memo(
         })
 
         transition.ready.then(() => {
-          const clipPath = [
-            `circle(0px at ${x}px ${y}px)`,
-            `circle(${endRadius}px at ${x}px ${y}px)`,
-          ]
-
+          // Always animate the new view expanding from click point
+          // The new view sits on top, so we reveal it with an expanding circle
           document.documentElement.animate(
             {
-              clipPath: isDark ? [...clipPath].reverse() : clipPath,
+              clipPath: [
+                `circle(0px at ${x}px ${y}px)`,
+                `circle(${endRadius}px at ${x}px ${y}px)`,
+              ],
             },
             {
               duration: 500,
               easing: 'ease-in-out',
-              pseudoElement: isDark
-                ? '::view-transition-old(root)'
-                : '::view-transition-new(root)',
+              pseudoElement: '::view-transition-new(root)',
             }
           )
         })

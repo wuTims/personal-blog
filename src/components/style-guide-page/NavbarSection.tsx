@@ -5,12 +5,15 @@ import {
   NavbarBrand,
   NavbarContent,
   NavbarLink,
-  NavbarToggle,
-  NavbarMenu,
+  NavbarToggleAnimated,
+  NavbarSidebar,
+  NavbarSidebarContent,
+  NavbarSidebarLink,
 } from '~/components/ui/navbar'
 
 export function NavbarSection() {
-  const [isMenuOpen, setIsMenuOpen] = useState(false)
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false)
+  const [toggleDemo, setToggleDemo] = useState(false)
 
   return (
     <section className="mb-16 sm:mb-20">
@@ -52,7 +55,6 @@ export function NavbarSection() {
                 <div className="h-8 w-8 rounded-full bg-coral" />
                 <div className="h-8 w-8 rounded-full bg-lavender" />
                 <div className="h-8 w-8 rounded-full bg-sky" />
-                <span className="font-bold text-foreground/60">Content behind navbar</span>
               </div>
               <Navbar variant="glass" className="relative">
                 <NavbarBrand href="#">tim</NavbarBrand>
@@ -89,22 +91,37 @@ export function NavbarSection() {
         </div>
       </div>
 
-      {/* Complete Example with Mobile Menu */}
-      <div>
+      {/* Animated Toggle Demo */}
+      <div className="mb-8 sm:mb-12">
         <Heading level="h3" className="mb-4 sm:mb-6">
-          Complete Example
+          Animated Toggle (2-line)
         </Heading>
         <Text variant="muted" size="sm" className="mb-4">
-          Glass navbar with colored links - resize to see mobile menu
+          Spring-animated hamburger with 2 lines that morphs into an X. Click to toggle.
+        </Text>
+        <div className="flex items-center gap-6">
+          <div className="overflow-hidden rounded-md border border-border p-4">
+            <NavbarToggleAnimated
+              isOpen={toggleDemo}
+              onClick={() => setToggleDemo(!toggleDemo)}
+              className="!flex"
+            />
+          </div>
+          <Text variant="muted" size="sm">
+            State: {toggleDemo ? 'Open (x)' : 'Closed (=)'}
+          </Text>
+        </div>
+      </div>
+
+      {/* Animated Sidebar Example */}
+      <div>
+        <Heading level="h3" className="mb-4 sm:mb-6">
+          Animated Sidebar
+        </Heading>
+        <Text variant="muted" size="sm" className="mb-4">
+          Full-height sidebar with spring animation. Click the button to open.
         </Text>
         <div className="relative overflow-hidden rounded-md border border-border">
-          {/* Background content to demonstrate blur */}
-          <div className="absolute inset-0 flex items-center justify-center gap-3 p-4">
-            <div className="h-6 w-6 rounded-full bg-emerald" />
-            <div className="h-6 w-6 rounded-full bg-coral" />
-            <div className="h-6 w-6 rounded-full bg-lavender" />
-            <div className="h-6 w-6 rounded-full bg-sky" />
-          </div>
           <Navbar variant="glass" className="relative">
             <NavbarBrand href="#">tim</NavbarBrand>
             <NavbarContent hideOnMobile gap="lg">
@@ -113,18 +130,32 @@ export function NavbarSection() {
               <NavbarLink href="#" variant="lavender">Projects</NavbarLink>
               <NavbarLink href="#" variant="sky">Blog</NavbarLink>
             </NavbarContent>
-            <NavbarToggle
-              isOpen={isMenuOpen}
-              onClick={() => setIsMenuOpen(!isMenuOpen)}
+            <NavbarToggleAnimated
+              isOpen={isSidebarOpen}
+              onClick={() => setIsSidebarOpen(!isSidebarOpen)}
             />
-            <NavbarMenu isOpen={isMenuOpen}>
-              <NavbarLink href="#" variant="emerald" active>Home</NavbarLink>
-              <NavbarLink href="#" variant="coral">About</NavbarLink>
-              <NavbarLink href="#" variant="lavender">Projects</NavbarLink>
-              <NavbarLink href="#" variant="sky">Blog</NavbarLink>
-            </NavbarMenu>
           </Navbar>
         </div>
+        <NavbarSidebar
+          isOpen={isSidebarOpen}
+          onClose={() => setIsSidebarOpen(false)}
+          position="right"
+        >
+          <NavbarSidebarContent>
+            <NavbarSidebarLink href="#" variant="emerald" active>
+              Home
+            </NavbarSidebarLink>
+            <NavbarSidebarLink href="#" variant="coral">
+              About
+            </NavbarSidebarLink>
+            <NavbarSidebarLink href="#" variant="lavender">
+              Projects
+            </NavbarSidebarLink>
+            <NavbarSidebarLink href="#" variant="sky">
+              Blog
+            </NavbarSidebarLink>
+          </NavbarSidebarContent>
+        </NavbarSidebar>
       </div>
     </section>
   )
