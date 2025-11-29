@@ -61,17 +61,20 @@ export const Route = createRootRoute({
   ),
 })
 
+import { SiteNavbar } from '~/components/SiteNavbar'
+import { Footer } from '~/components/Footer'
+
+// ... imports
+
 function RootDocument({ children }: { children: ReactNode }) {
   const { theme } = Route.useLoaderData()
 
-  // For SSR: Only set 'dark' class if explicitly set to 'dark'
-  // If theme is 'system', let the client-side code handle it
-  // suppressHydrationWarning: inline script may add 'dark' class before React hydrates
+  // ... script
+
   return (
     <html className={theme === 'dark' ? 'dark' : ''} suppressHydrationWarning>
       <head>
-        {/* Inline script to prevent flash of light theme on initial load */}
-        {/* This runs synchronously before page renders */}
+        {/* ... head content ... */}
         <script
           dangerouslySetInnerHTML={{
             __html: `
@@ -107,7 +110,13 @@ function RootDocument({ children }: { children: ReactNode }) {
       </head>
       <body>
         <DarkModeProvider initialTheme={theme}>
-          {children}
+          <div className="flex min-h-screen flex-col bg-neutral-50 dark:bg-neutral-950">
+            <SiteNavbar />
+            <main className="flex-1">
+              {children}
+            </main>
+            <Footer />
+          </div>
         </DarkModeProvider>
         <Scripts />
       </body>
