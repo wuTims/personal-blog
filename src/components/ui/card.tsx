@@ -22,11 +22,19 @@ const cardVariants = cva(
         default: 'rounded-[6px]',
         lg: 'rounded-[8px]',
       },
+      accent: {
+        none: '',
+        emerald: 'hover:border-emerald',
+        coral: 'hover:border-coral',
+        lavender: 'hover:border-lavender',
+        sky: 'hover:border-sky',
+      },
     },
     defaultVariants: {
       variant: 'default',
       padding: 'default',
       radius: 'sm',
+      accent: 'none',
     },
   }
 )
@@ -37,11 +45,11 @@ export interface CardProps
 
 const Card = React.memo(
   React.forwardRef<HTMLDivElement, CardProps>(
-    ({ className, variant, padding, radius, ...props }, ref) => {
+    ({ className, variant, padding, radius, accent, ...props }, ref) => {
       return (
         <div
           ref={ref}
-          className={cn(cardVariants({ variant, padding, radius, className }))}
+          className={cn(cardVariants({ variant, padding, radius, accent, className }))}
           {...props}
         />
       )

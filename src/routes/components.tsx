@@ -27,6 +27,12 @@ const DesignTokensSection = lazy(() =>
 const SocialLinksSection = lazy(() =>
   import('~/components/style-guide-page/SocialLinksSection').then(m => ({ default: m.SocialLinksSection }))
 )
+const BlogCardsSection = lazy(() =>
+  import('~/components/style-guide-page/BlogCardsSection').then(m => ({ default: m.BlogCardsSection }))
+)
+const ProjectCardsSection = lazy(() =>
+  import('~/components/style-guide-page/ProjectCardsSection').then(m => ({ default: m.ProjectCardsSection }))
+)
 
 export const Route = createFileRoute('/components')({
   component: ComponentsShowcase,
@@ -72,6 +78,14 @@ function ComponentsShowcase() {
 
         <Suspense fallback={<SectionFallback />}>
           <CardsSection />
+        </Suspense>
+
+        <Suspense fallback={<SectionFallback />}>
+          <BlogCardsSection />
+        </Suspense>
+
+        <Suspense fallback={<SectionFallback />}>
+          <ProjectCardsSection />
         </Suspense>
 
         <Suspense fallback={<SectionFallback />}>
