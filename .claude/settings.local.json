@@ -12,7 +12,14 @@
       "WebFetch(domain:blog.logrocket.com)",
       "Bash(curl:*)",
       "WebFetch(domain:raw.githubusercontent.com)",
-      "Bash(lsof:*)"
+      "Bash(lsof:*)",
+      "mcp__playwright__browser_take_screenshot",
+      "mcp__playwright__browser_hover",
+      "mcp__playwright__browser_navigate",
+      "mcp__playwright__browser_press_key",
+      "mcp__playwright__browser_close",
+      "mcp__playwright__browser_evaluate",
+      "mcp__playwright__browser_click"
     ],
     "deny": [],
     "ask": []
