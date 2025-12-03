@@ -33,6 +33,15 @@ const BlogCardsSection = lazy(() =>
 const ProjectCardsSection = lazy(() =>
   import('~/components/style-guide-page/ProjectCardsSection').then(m => ({ default: m.ProjectCardsSection }))
 )
+const StatusIndicatorSection = lazy(() =>
+  import('~/components/style-guide-page/StatusIndicatorSection').then(m => ({ default: m.StatusIndicatorSection }))
+)
+const PostListSection = lazy(() =>
+  import('~/components/style-guide-page/PostListSection').then(m => ({ default: m.PostListSection }))
+)
+const ProjectListSection = lazy(() =>
+  import('~/components/style-guide-page/ProjectListSection').then(m => ({ default: m.ProjectListSection }))
+)
 
 export const Route = createFileRoute('/components')({
   component: ComponentsShowcase,
@@ -73,6 +82,10 @@ function ComponentsShowcase() {
         </Suspense>
 
         <Suspense fallback={<SectionFallback />}>
+          <StatusIndicatorSection />
+        </Suspense>
+
+        <Suspense fallback={<SectionFallback />}>
           <SocialLinksSection />
         </Suspense>
 
@@ -86,6 +99,14 @@ function ComponentsShowcase() {
 
         <Suspense fallback={<SectionFallback />}>
           <ProjectCardsSection />
+        </Suspense>
+
+        <Suspense fallback={<SectionFallback />}>
+          <PostListSection />
+        </Suspense>
+
+        <Suspense fallback={<SectionFallback />}>
+          <ProjectListSection />
         </Suspense>
 
         <Suspense fallback={<SectionFallback />}>
