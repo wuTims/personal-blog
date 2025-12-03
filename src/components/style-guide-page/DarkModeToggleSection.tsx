@@ -64,20 +64,6 @@ export function DarkModeToggleSection() {
           </div>
         </div>
       </div>
-
-      {/* Implementation Notes */}
-      <div>
-        <Heading level="h3" className="mb-4 sm:mb-6">
-          Implementation
-        </Heading>
-        <div className="space-y-3">
-          <Code variant="block">document.startViewTransition()</Code>
-          <Text variant="muted" size="sm">
-            The animation uses <Code>clip-path: circle()</Code> expanding from the click position.
-            Falls back gracefully when View Transitions API is not supported or user prefers reduced motion.
-          </Text>
-        </div>
-      </div>
     </section>
   )
 }

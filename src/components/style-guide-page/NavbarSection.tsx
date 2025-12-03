@@ -112,51 +112,6 @@ export function NavbarSection() {
           </Text>
         </div>
       </div>
-
-      {/* Animated Sidebar Example */}
-      <div>
-        <Heading level="h3" className="mb-4 sm:mb-6">
-          Animated Sidebar
-        </Heading>
-        <Text variant="muted" size="sm" className="mb-4">
-          Full-height sidebar with spring animation. Click the button to open.
-        </Text>
-        <div className="relative overflow-hidden rounded-md border border-border">
-          <Navbar variant="glass" className="relative">
-            <NavbarBrand href="#">tim</NavbarBrand>
-            <NavbarContent hideOnMobile gap="lg">
-              <NavbarLink href="#" variant="emerald" active>Home</NavbarLink>
-              <NavbarLink href="#" variant="coral">About</NavbarLink>
-              <NavbarLink href="#" variant="lavender">Projects</NavbarLink>
-              <NavbarLink href="#" variant="sky">Blog</NavbarLink>
-            </NavbarContent>
-            <NavbarToggleAnimated
-              isOpen={isSidebarOpen}
-              onClick={() => setIsSidebarOpen(!isSidebarOpen)}
-            />
-          </Navbar>
-        </div>
-        <NavbarSidebar
-          isOpen={isSidebarOpen}
-          onClose={() => setIsSidebarOpen(false)}
-          position="right"
-        >
-          <NavbarSidebarContent>
-            <NavbarSidebarLink href="#" variant="emerald" active>
-              Home
-            </NavbarSidebarLink>
-            <NavbarSidebarLink href="#" variant="coral">
-              About
-            </NavbarSidebarLink>
-            <NavbarSidebarLink href="#" variant="lavender">
-              Projects
-            </NavbarSidebarLink>
-            <NavbarSidebarLink href="#" variant="sky">
-              Blog
-            </NavbarSidebarLink>
-          </NavbarSidebarContent>
-        </NavbarSidebar>
-      </div>
     </section>
   )
 }
