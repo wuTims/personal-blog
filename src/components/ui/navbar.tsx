@@ -158,18 +158,12 @@ const navbarLinkVariants = cva(
   {
     variants: {
       variant: {
-        default:
-          'hover:text-neutral-900 dark:hover:text-neutral-50 hover:bg-neutral-100 dark:hover:bg-neutral-800',
-        muted:
-          'hover:text-foreground hover:bg-neutral-100 dark:hover:bg-neutral-800',
-        emerald:
-          'hover:text-emerald hover:bg-emerald/10 dark:hover:bg-emerald/20 hover:shadow-sm dark:hover:glow-emerald',
-        coral:
-          'hover:text-coral hover:bg-coral/10 dark:hover:bg-coral/20 hover:shadow-sm dark:hover:glow-coral',
-        lavender:
-          'hover:text-lavender hover:bg-lavender/10 dark:hover:bg-lavender/20 hover:shadow-sm dark:hover:glow-lavender',
-        sky:
-          'hover:text-sky hover:bg-sky/10 dark:hover:bg-sky/20 hover:shadow-sm dark:hover:glow-sky',
+        default: 'hover:text-neutral-900 dark:hover:text-neutral-50',
+        muted: 'hover:text-foreground',
+        emerald: 'hover:text-emerald',
+        coral: 'hover:text-coral',
+        lavender: 'hover:text-lavender',
+        sky: 'hover:text-sky',
       },
       size: {
         sm: 'text-xs sm:text-sm',
@@ -372,7 +366,7 @@ const NavbarToggleAnimated = React.memo(
           aria-expanded={isOpen}
           className={cn(
             'relative inline-flex h-10 w-10 items-center justify-center rounded-md sm:hidden',
-            'text-foreground transition-colors hover:bg-neutral-100 dark:hover:bg-neutral-800',
+            'text-foreground transition-colors hover:cursor-pointer',
             'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2',
             className
           )}
