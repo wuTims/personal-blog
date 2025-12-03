@@ -2,6 +2,7 @@ import {
   createRootRoute,
   HeadContent,
   Scripts,
+  useLocation,
 } from '@tanstack/react-router'
 import type { ReactNode } from 'react'
 import appCss from '~/globals.css?url'
@@ -68,13 +69,12 @@ import { Footer } from '~/components/Footer'
 
 function RootDocument({ children }: { children: ReactNode }) {
   const { theme } = Route.useLoaderData()
-
-  // ... script
+  const location = useLocation()
+  const isHomePage = location.pathname === '/'
 
   return (
     <html className={theme === 'dark' ? 'dark' : ''} suppressHydrationWarning>
       <head>
-        {/* ... head content ... */}
         <script
           dangerouslySetInnerHTML={{
             __html: `
@@ -115,7 +115,7 @@ function RootDocument({ children }: { children: ReactNode }) {
             <main className="flex-1">
               {children}
             </main>
-            <Footer />
+            {!isHomePage && <Footer />}
           </div>
         </DarkModeProvider>
         <Scripts />
