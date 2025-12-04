@@ -1,6 +1,6 @@
 import { createFileRoute, Link } from '@tanstack/react-router'
 import { motion } from 'framer-motion'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { allPosts, allProjects } from 'content-collections'
 import {
   GithubIcon,
@@ -125,11 +125,28 @@ function AccentUnderline({ accent }: { accent: AccentColor }) {
   )
 }
 
+// Detect if device supports hover (e.g., has a mouse/trackpad)
+function useSupportsHover() {
+  const [supportsHover, setSupportsHover] = useState(true)
+
+  useEffect(() => {
+    const mediaQuery = window.matchMedia('(hover: hover)')
+    setSupportsHover(mediaQuery.matches)
+
+    const handler = (e: MediaQueryListEvent) => setSupportsHover(e.matches)
+    mediaQuery.addEventListener('change', handler)
+    return () => mediaQuery.removeEventListener('change', handler)
+  }, [])
+
+  return supportsHover
+}
+
 
 function HomeComponent() {
   const [expandedProjectId, setExpandedProjectId] = useState<string | null>(
     null
   )
+  const supportsHover = useSupportsHover()
 
   // Get published posts and projects sorted by date
   const publishedPosts = allPosts
@@ -305,11 +322,10 @@ function HomeComponent() {
                         params={{ slug: getSlug(project._meta.path) }}
                         className="block py-5"
                         onClick={(e) => {
-                          if (window.innerWidth < 768) {
+                          // On touch devices: first tap expands, second tap navigates
+                          if (!supportsHover && !isExpanded) {
                             e.preventDefault()
-                            setExpandedProjectId(
-                              isExpanded ? null : project._meta.path
-                            )
+                            setExpandedProjectId(project._meta.path)
                           }
                         }}
                       >
@@ -341,14 +357,16 @@ function HomeComponent() {
                             <span className="text-muted text-sm">
                               {formatDate(project.date)}
                             </span>
-                            <span
-                              className={cn(
-                                'text-muted transition-transform duration-200 md:hidden',
-                                isExpanded && 'rotate-90'
-                              )}
-                            >
-                              →
-                            </span>
+                            {!supportsHover && (
+                              <span
+                                className={cn(
+                                  'text-muted transition-transform duration-200',
+                                  isExpanded && 'rotate-90'
+                                )}
+                              >
+                                →
+                              </span>
+                            )}
                           </div>
                         </div>
 
@@ -356,8 +374,11 @@ function HomeComponent() {
                         <div
                           className={cn(
                             'grid overflow-hidden transition-[grid-template-rows] duration-300',
-                            isExpanded ? 'grid-rows-[1fr]' : 'grid-rows-[0fr]',
-                            'md:grid-rows-[0fr] md:group-hover:grid-rows-[1fr]'
+                            supportsHover
+                              ? 'grid-rows-[0fr] group-hover:grid-rows-[1fr]'
+                              : isExpanded
+                                ? 'grid-rows-[1fr]'
+                                : 'grid-rows-[0fr]'
                           )}
                         >
                           <div className="overflow-hidden">
