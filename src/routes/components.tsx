@@ -1,55 +1,47 @@
 import { createFileRoute } from '@tanstack/react-router'
-import { lazy, Suspense } from 'react'
+import { motion } from 'framer-motion'
 import { Container, Heading, Text } from '~/components/ui'
 
-// Lazy load sections for better code splitting and performance
-const TypographySection = lazy(() =>
-  import('~/components/style-guide-page/TypographySection').then(m => ({ default: m.TypographySection }))
-)
-const ButtonsSection = lazy(() =>
-  import('~/components/style-guide-page/ButtonsSection').then(m => ({ default: m.ButtonsSection }))
-)
-const CardsSection = lazy(() =>
-  import('~/components/style-guide-page/CardsSection').then(m => ({ default: m.CardsSection }))
-)
-const NavbarSection = lazy(() =>
-  import('~/components/style-guide-page/NavbarSection').then(m => ({ default: m.NavbarSection }))
-)
-const ContainerSection = lazy(() =>
-  import('~/components/style-guide-page/ContainerSection').then(m => ({ default: m.ContainerSection }))
-)
-const DarkModeToggleSection = lazy(() =>
-  import('~/components/style-guide-page/DarkModeToggleSection').then(m => ({ default: m.DarkModeToggleSection }))
-)
-const DesignTokensSection = lazy(() =>
-  import('~/components/style-guide-page/DesignTokensSection').then(m => ({ default: m.DesignTokensSection }))
-)
-const SocialLinksSection = lazy(() =>
-  import('~/components/style-guide-page/SocialLinksSection').then(m => ({ default: m.SocialLinksSection }))
-)
-const BlogCardsSection = lazy(() =>
-  import('~/components/style-guide-page/BlogCardsSection').then(m => ({ default: m.BlogCardsSection }))
-)
-const ProjectCardsSection = lazy(() =>
-  import('~/components/style-guide-page/ProjectCardsSection').then(m => ({ default: m.ProjectCardsSection }))
-)
-const StatusIndicatorSection = lazy(() =>
-  import('~/components/style-guide-page/StatusIndicatorSection').then(m => ({ default: m.StatusIndicatorSection }))
-)
-const PostListSection = lazy(() =>
-  import('~/components/style-guide-page/PostListSection').then(m => ({ default: m.PostListSection }))
-)
-const ProjectListSection = lazy(() =>
-  import('~/components/style-guide-page/ProjectListSection').then(m => ({ default: m.ProjectListSection }))
-)
+// Static imports - all sections are needed for this page, so no code splitting benefit
+import { TypographySection } from '~/components/style-guide-page/TypographySection'
+import { ButtonsSection } from '~/components/style-guide-page/ButtonsSection'
+import { CardsSection } from '~/components/style-guide-page/CardsSection'
+import { NavbarSection } from '~/components/style-guide-page/NavbarSection'
+import { ContainerSection } from '~/components/style-guide-page/ContainerSection'
+import { DarkModeToggleSection } from '~/components/style-guide-page/DarkModeToggleSection'
+import { DesignTokensSection } from '~/components/style-guide-page/DesignTokensSection'
+import { SocialLinksSection } from '~/components/style-guide-page/SocialLinksSection'
+import { BlogCardsSection } from '~/components/style-guide-page/BlogCardsSection'
+import { ProjectCardsSection } from '~/components/style-guide-page/ProjectCardsSection'
+import { StatusIndicatorSection } from '~/components/style-guide-page/StatusIndicatorSection'
+import { PostListSection } from '~/components/style-guide-page/PostListSection'
+import { ProjectListSection } from '~/components/style-guide-page/ProjectListSection'
 
 export const Route = createFileRoute('/components')({
   component: ComponentsShowcase,
 })
 
-// Minimal loading fallback
-function SectionFallback() {
-  return <div className="mb-20 min-h-[200px] animate-pulse rounded bg-neutral-100 dark:bg-neutral-800" />
+// Animation variants
+const containerVariants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.08,
+    },
+  },
+}
+
+const sectionVariants = {
+  hidden: { opacity: 0, y: 20 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      duration: 0.4,
+      ease: 'easeOut' as const,
+    },
+  },
 }
 
 function ComponentsShowcase() {
@@ -57,7 +49,12 @@ function ComponentsShowcase() {
     <div className="py-8 sm:py-12">
       <Container>
         {/* Header */}
-        <div className="mb-12 mt-8 sm:mb-16 sm:mt-0">
+        <motion.div
+          className="mb-12 mt-8 sm:mb-16 sm:mt-0"
+          initial={{ opacity: 0, y: -10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.4 }}
+        >
           <div className="text-center">
             <Heading level="h1" className="mb-3 sm:mb-4">
               Component Library
@@ -66,76 +63,85 @@ function ComponentsShowcase() {
               Shared components built with the ChromaDB design system
             </Text>
           </div>
-        </div>
+        </motion.div>
 
-        {/* Lazy-loaded sections */}
-        <Suspense fallback={<SectionFallback />}>
-          <TypographySection />
-        </Suspense>
+        {/* All sections loaded synchronously - animations run smoothly */}
+        <motion.div
+          variants={containerVariants}
+          initial="hidden"
+          animate="visible"
+        >
+          <motion.div variants={sectionVariants}>
+            <TypographySection />
+          </motion.div>
 
-        <Suspense fallback={<SectionFallback />}>
-          <ButtonsSection />
-        </Suspense>
+          <motion.div variants={sectionVariants}>
+            <ButtonsSection />
+          </motion.div>
 
-        <Suspense fallback={<SectionFallback />}>
-          <DarkModeToggleSection />
-        </Suspense>
+          <motion.div variants={sectionVariants}>
+            <DarkModeToggleSection />
+          </motion.div>
 
-        <Suspense fallback={<SectionFallback />}>
-          <StatusIndicatorSection />
-        </Suspense>
+          <motion.div variants={sectionVariants}>
+            <StatusIndicatorSection />
+          </motion.div>
 
-        <Suspense fallback={<SectionFallback />}>
-          <SocialLinksSection />
-        </Suspense>
+          <motion.div variants={sectionVariants}>
+            <SocialLinksSection />
+          </motion.div>
 
-        <Suspense fallback={<SectionFallback />}>
-          <CardsSection />
-        </Suspense>
+          <motion.div variants={sectionVariants}>
+            <CardsSection />
+          </motion.div>
 
-        <Suspense fallback={<SectionFallback />}>
-          <BlogCardsSection />
-        </Suspense>
+          <motion.div variants={sectionVariants}>
+            <BlogCardsSection />
+          </motion.div>
 
-        <Suspense fallback={<SectionFallback />}>
-          <ProjectCardsSection />
-        </Suspense>
+          <motion.div variants={sectionVariants}>
+            <ProjectCardsSection />
+          </motion.div>
 
-        <Suspense fallback={<SectionFallback />}>
-          <PostListSection />
-        </Suspense>
+          <motion.div variants={sectionVariants}>
+            <PostListSection />
+          </motion.div>
 
-        <Suspense fallback={<SectionFallback />}>
-          <ProjectListSection />
-        </Suspense>
+          <motion.div variants={sectionVariants}>
+            <ProjectListSection />
+          </motion.div>
 
-        <Suspense fallback={<SectionFallback />}>
-          <NavbarSection />
-        </Suspense>
+          <motion.div variants={sectionVariants}>
+            <NavbarSection />
+          </motion.div>
 
-        <Suspense fallback={<SectionFallback />}>
-          <ContainerSection />
-        </Suspense>
+          <motion.div variants={sectionVariants}>
+            <ContainerSection />
+          </motion.div>
 
-        <Suspense fallback={<SectionFallback />}>
-          <DesignTokensSection />
-        </Suspense>
+          <motion.div variants={sectionVariants}>
+            <DesignTokensSection />
+          </motion.div>
 
-        {/* Footer */}
-        <section className="flex flex-col items-center border-t pt-8 sm:pt-12">
-          <Text variant="muted" className="text-center">
-            Component library built with TanStack Start, Tailwind CSS, and CVA
-          </Text>
-          <Text variant="muted" size="sm" className="mt-2 text-center">
-            Following the ChromaDB design system principles
-          </Text>
-          <a
-            href="/"
-            className="mt-6 rounded-md bg-foreground px-6 py-3 text-center text-background transition-opacity hover:opacity-90 sm:mt-8"
+          {/* Footer */}
+          <motion.section
+            variants={sectionVariants}
+            className="flex flex-col items-center border-t pt-8 sm:pt-12"
           >
-            Back to Home
-          </a>
-        </section>
+            <Text variant="muted" className="text-center">
+              Component library built with TanStack Start, Tailwind CSS, and CVA
+            </Text>
+            <Text variant="muted" size="sm" className="mt-2 text-center">
+              Following the ChromaDB design system principles
+            </Text>
+            <a
+              href="/"
+              className="mt-6 rounded-md bg-foreground px-6 py-3 text-center text-background transition-opacity hover:opacity-90 sm:mt-8"
+            >
+              Back to Home
+            </a>
+          </motion.section>
+        </motion.div>
       </Container>
     </div>
   )

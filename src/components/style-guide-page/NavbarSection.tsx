@@ -6,13 +6,9 @@ import {
   NavbarContent,
   NavbarLink,
   NavbarToggleAnimated,
-  NavbarSidebar,
-  NavbarSidebarContent,
-  NavbarSidebarLink,
 } from '~/components/ui/navbar'
 
 export function NavbarSection() {
-  const [isSidebarOpen, setIsSidebarOpen] = useState(false)
   const [toggleDemo, setToggleDemo] = useState(false)
 
   return (

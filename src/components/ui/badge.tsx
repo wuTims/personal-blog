@@ -27,9 +27,6 @@ export interface BadgeProps
 const Badge = React.memo(
   React.forwardRef<HTMLSpanElement, BadgeProps>(
     ({ className, variant, children, ...props }, ref) => {
-      // Add prefix based on variant
-      const prefix =
-        variant === 'featured' ? '★ ' : variant === 'new' ? '● ' : ''
 
       return (
         <span
@@ -37,7 +34,6 @@ const Badge = React.memo(
           ref={ref}
           {...props}
         >
-          {prefix}
           {children}
         </span>
       )

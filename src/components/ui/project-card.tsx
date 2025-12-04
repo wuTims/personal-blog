@@ -26,6 +26,8 @@ export interface ProjectCardProps extends React.HTMLAttributes<HTMLElement> {
   mediaSrc: string
   /** Alt text for the media */
   mediaAlt: string
+  /** Media position for object-fit (e.g., "top", "center", "bottom", "30%") */
+  mediaPosition?: string
   /** Media type - defaults to 'image' */
   mediaType?: 'image' | 'video'
   /** Poster image for video (shown while loading or if video fails) */
@@ -98,6 +100,7 @@ const ProjectCard = React.memo(
         variant = 'default',
         mediaSrc,
         mediaAlt,
+        mediaPosition,
         mediaType = 'image',
         videoPoster,
         title,
@@ -151,7 +154,8 @@ const ProjectCard = React.memo(
               <img
                 src={mediaSrc}
                 alt={mediaAlt}
-                className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
+                className="h-full w-full object-cover"
+                style={mediaPosition ? { objectPosition: `center ${mediaPosition}` } : undefined}
               />
             )}
           </div>

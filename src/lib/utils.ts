@@ -8,3 +8,11 @@ import { twMerge } from 'tailwind-merge'
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
 }
+
+/**
+ * Returns a full URL for a media asset stored in R2
+ */
+export function getMediaUrl(path: string): string {
+  const cleanPath = path.startsWith('/') ? path.slice(1) : path
+  return `${import.meta.env.VITE_MEDIA_BASE_URL}/${cleanPath}`
+}

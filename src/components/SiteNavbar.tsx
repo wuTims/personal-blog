@@ -21,9 +21,9 @@ type LinkVariant = 'emerald' | 'coral' | 'lavender' | 'sky'
 
 const navLinks: { to: string; label: string; variant: LinkVariant }[] = [
   { to: '/', label: 'Home', variant: 'emerald' },
-  { to: '/about', label: 'About', variant: 'coral' },
-  { to: '/projects', label: 'Projects', variant: 'lavender' },
   { to: '/blog', label: 'Blog', variant: 'sky' },
+  { to: '/about', label: 'About', variant: 'coral' },
+  { to: '/components', label: 'Library', variant: 'lavender' },
 ]
 
 // Pill backgrounds (matches navbarLinkVariants active bg)
@@ -70,7 +70,9 @@ export function SiteNavbar({ className }: SiteNavbarProps) {
               >
                 {isActive && (
                   <motion.span
-                    layoutId="nav-pill"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ duration: 0.2 }}
                     className={pillBg[link.variant]}
                     style={{
                       position: 'absolute',
@@ -78,7 +80,6 @@ export function SiteNavbar({ className }: SiteNavbarProps) {
                       borderRadius: 6,
                       zIndex: 0,
                     }}
-                    transition={{ type: 'spring', bounce: 0.15, duration: 0.5 }}
                   />
                 )}
                 <span className="relative z-10">{link.label}</span>

@@ -11,6 +11,7 @@ const containerVariants = cva('mx-auto w-full', {
       xl: 'max-w-screen-xl',
       '2xl': 'max-w-screen-2xl',
       full: 'max-w-full',
+      prose: 'max-w-prose', // ~65ch (~700px) for optimal reading
     },
     padding: {
       none: 'px-0',

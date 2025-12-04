@@ -42,9 +42,9 @@ export function PostListSection() {
           Basic Usage
         </Heading>
         <div className="space-y-0 divide-y divide-border">
-          {samplePosts.map((post) => (
+          {samplePosts.map((post, index) => (
             <Link
-              key={post.href}
+              key={index}
               to={post.href}
               className="group block py-4"
             >

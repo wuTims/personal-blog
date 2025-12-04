@@ -1,4 +1,4 @@
-import { DarkModeToggle, Heading, Text, Code } from '~/components/ui'
+import { DarkModeToggle, Heading, Text } from '~/components/ui'
 
 export function DarkModeToggleSection() {
   return (

@@ -9,25 +9,17 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
-import { Route as ProjectsRouteImport } from './routes/projects'
 import { Route as ComponentsRouteImport } from './routes/components'
-import { Route as BlogRouteImport } from './routes/blog'
 import { Route as AboutRouteImport } from './routes/about'
+import { Route as BlogRouteRouteImport } from './routes/blog/route'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as BlogIndexRouteImport } from './routes/blog/index'
+import { Route as BlogProjectsSlugRouteImport } from './routes/blog/projects/$slug'
+import { Route as BlogPostsSlugRouteImport } from './routes/blog/posts/$slug'
 
-const ProjectsRoute = ProjectsRouteImport.update({
-  id: '/projects',
-  path: '/projects',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const ComponentsRoute = ComponentsRouteImport.update({
   id: '/components',
   path: '/components',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const BlogRoute = BlogRouteImport.update({
-  id: '/blog',
-  path: '/blog',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AboutRoute = AboutRouteImport.update({
@@ -35,71 +27,102 @@ const AboutRoute = AboutRouteImport.update({
   path: '/about',
   getParentRoute: () => rootRouteImport,
 } as any)
+const BlogRouteRoute = BlogRouteRouteImport.update({
+  id: '/blog',
+  path: '/blog',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const BlogIndexRoute = BlogIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => BlogRouteRoute,
+} as any)
+const BlogProjectsSlugRoute = BlogProjectsSlugRouteImport.update({
+  id: '/projects/$slug',
+  path: '/projects/$slug',
+  getParentRoute: () => BlogRouteRoute,
+} as any)
+const BlogPostsSlugRoute = BlogPostsSlugRouteImport.update({
+  id: '/posts/$slug',
+  path: '/posts/$slug',
+  getParentRoute: () => BlogRouteRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/blog': typeof BlogRouteRouteWithChildren
   '/about': typeof AboutRoute
-  '/blog': typeof BlogRoute
   '/components': typeof ComponentsRoute
-  '/projects': typeof ProjectsRoute
+  '/blog/': typeof BlogIndexRoute
+  '/blog/posts/$slug': typeof BlogPostsSlugRoute
+  '/blog/projects/$slug': typeof BlogProjectsSlugRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
-  '/blog': typeof BlogRoute
   '/components': typeof ComponentsRoute
-  '/projects': typeof ProjectsRoute
+  '/blog': typeof BlogIndexRoute
+  '/blog/posts/$slug': typeof BlogPostsSlugRoute
+  '/blog/projects/$slug': typeof BlogProjectsSlugRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/blog': typeof BlogRouteRouteWithChildren
   '/about': typeof AboutRoute
-  '/blog': typeof BlogRoute
   '/components': typeof ComponentsRoute
-  '/projects': typeof ProjectsRoute
+  '/blog/': typeof BlogIndexRoute
+  '/blog/posts/$slug': typeof BlogPostsSlugRoute
+  '/blog/projects/$slug': typeof BlogProjectsSlugRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/about' | '/blog' | '/components' | '/projects'
+  fullPaths:
+    | '/'
+    | '/blog'
+    | '/about'
+    | '/components'
+    | '/blog/'
+    | '/blog/posts/$slug'
+    | '/blog/projects/$slug'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/about' | '/blog' | '/components' | '/projects'
-  id: '__root__' | '/' | '/about' | '/blog' | '/components' | '/projects'
+  to:
+    | '/'
+    | '/about'
+    | '/components'
+    | '/blog'
+    | '/blog/posts/$slug'
+    | '/blog/projects/$slug'
+  id:
+    | '__root__'
+    | '/'
+    | '/blog'
+    | '/about'
+    | '/components'
+    | '/blog/'
+    | '/blog/posts/$slug'
+    | '/blog/projects/$slug'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  BlogRouteRoute: typeof BlogRouteRouteWithChildren
   AboutRoute: typeof AboutRoute
-  BlogRoute: typeof BlogRoute
   ComponentsRoute: typeof ComponentsRoute
-  ProjectsRoute: typeof ProjectsRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/projects': {
-      id: '/projects'
-      path: '/projects'
-      fullPath: '/projects'
-      preLoaderRoute: typeof ProjectsRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/components': {
       id: '/components'
       path: '/components'
       fullPath: '/components'
       preLoaderRoute: typeof ComponentsRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/blog': {
-      id: '/blog'
-      path: '/blog'
-      fullPath: '/blog'
-      preLoaderRoute: typeof BlogRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/about': {
@@ -109,6 +132,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AboutRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/blog': {
+      id: '/blog'
+      path: '/blog'
+      fullPath: '/blog'
+      preLoaderRoute: typeof BlogRouteRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -116,15 +146,51 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/blog/': {
+      id: '/blog/'
+      path: '/'
+      fullPath: '/blog/'
+      preLoaderRoute: typeof BlogIndexRouteImport
+      parentRoute: typeof BlogRouteRoute
+    }
+    '/blog/projects/$slug': {
+      id: '/blog/projects/$slug'
+      path: '/projects/$slug'
+      fullPath: '/blog/projects/$slug'
+      preLoaderRoute: typeof BlogProjectsSlugRouteImport
+      parentRoute: typeof BlogRouteRoute
+    }
+    '/blog/posts/$slug': {
+      id: '/blog/posts/$slug'
+      path: '/posts/$slug'
+      fullPath: '/blog/posts/$slug'
+      preLoaderRoute: typeof BlogPostsSlugRouteImport
+      parentRoute: typeof BlogRouteRoute
+    }
   }
 }
 
+interface BlogRouteRouteChildren {
+  BlogIndexRoute: typeof BlogIndexRoute
+  BlogPostsSlugRoute: typeof BlogPostsSlugRoute
+  BlogProjectsSlugRoute: typeof BlogProjectsSlugRoute
+}
+
+const BlogRouteRouteChildren: BlogRouteRouteChildren = {
+  BlogIndexRoute: BlogIndexRoute,
+  BlogPostsSlugRoute: BlogPostsSlugRoute,
+  BlogProjectsSlugRoute: BlogProjectsSlugRoute,
+}
+
+const BlogRouteRouteWithChildren = BlogRouteRoute._addFileChildren(
+  BlogRouteRouteChildren,
+)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  BlogRouteRoute: BlogRouteRouteWithChildren,
   AboutRoute: AboutRoute,
-  BlogRoute: BlogRoute,
   ComponentsRoute: ComponentsRoute,
-  ProjectsRoute: ProjectsRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

@@ -11,6 +11,8 @@ export interface BlogCardProps extends React.HTMLAttributes<HTMLElement> {
   imageSrc: string
   /** Alt text for the image */
   imageAlt: string
+  /** Image position for object-fit (e.g., "top", "center", "bottom", "30%") */
+  imagePosition?: string
   /** The blog post title */
   title: string
   /** The blog post description/excerpt */
@@ -29,6 +31,7 @@ const BlogCard = React.memo(
         variant = 'default',
         imageSrc,
         imageAlt,
+        imagePosition,
         title,
         description,
         href,
@@ -58,7 +61,8 @@ const BlogCard = React.memo(
             <img
               src={imageSrc}
               alt={imageAlt}
-              className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
+              className="h-full w-full object-cover"
+              style={imagePosition ? { objectPosition: `center ${imagePosition}` } : undefined}
             />
           </div>
 

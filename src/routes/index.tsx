@@ -1,6 +1,14 @@
 import { createFileRoute, Link } from '@tanstack/react-router'
 import { motion } from 'framer-motion'
-import { GithubIcon, LinkedinIcon } from '~/components/ui/social-links'
+import { useState } from 'react'
+import { allPosts, allProjects } from 'content-collections'
+import {
+  GithubIcon,
+  LinkedinIcon,
+  ArticleIcon,
+} from '~/components/ui/social-links'
+import { Badge } from '~/components/ui'
+import { cn } from '~/lib/utils'
 
 export const Route = createFileRoute('/')({
   component: HomeComponent,
@@ -60,7 +68,7 @@ function AnimatedWords({
       {words.map((word, i) => (
         <motion.span
           key={i}
-          className="inline-block mr-[0.25em]"
+          className="mr-[0.25em] inline-block"
           variants={wordVariants}
         >
           {word}
@@ -70,10 +78,16 @@ function AnimatedWords({
   )
 }
 
-const featuredPosts = [
-  { title: 'Building with Claude Code', slug: '/blog/claude-code' },
-  { title: 'Why I rebuilt my site', slug: '/blog/rebuild' },
-]
+// Format date for display
+function formatDate(dateStr: string) {
+  const date = new Date(dateStr)
+  return date.toLocaleDateString('en-US', { month: 'short', year: 'numeric' })
+}
+
+// Get slug from file path
+function getSlug(path: string) {
+  return path.replace(/\.md$/, '')
+}
 
 const socialLinks = [
   { platform: 'GitHub', href: 'https://github.com/wuTims', Icon: GithubIcon },
@@ -82,11 +96,52 @@ const socialLinks = [
     href: 'https://www.linkedin.com/in/timlwu',
     Icon: LinkedinIcon,
   },
+  {
+    platform: 'Resume',
+    href: 'https://media.wutims.com/2025_wutims_resume.pdf',
+    Icon: ArticleIcon,
+  },
 ]
 
-function HomeComponent() {
+// Project type colors
+type AccentColor = 'emerald' | 'coral' | 'lavender' | 'sky'
+
+const accentBg: Record<AccentColor, string> = {
+  emerald: 'bg-emerald',
+  coral: 'bg-coral',
+  lavender: 'bg-lavender',
+  sky: 'bg-sky',
+}
+
+// Accent underline component
+function AccentUnderline({ accent }: { accent: AccentColor }) {
   return (
-    <div className="relative min-h-[calc(100vh-4rem)] flex flex-col">
+    <span
+      className={cn(
+        'absolute right-0 -bottom-0.5 left-0 h-0.5 rounded-full transition-all duration-200 group-hover:h-[3px]',
+        accentBg[accent]
+      )}
+    />
+  )
+}
+
+
+function HomeComponent() {
+  const [expandedProjectId, setExpandedProjectId] = useState<string | null>(
+    null
+  )
+
+  // Get published posts and projects sorted by date
+  const publishedPosts = allPosts
+    .filter((post) => post.published)
+    .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
+
+  const publishedProjects = allProjects
+    .filter((project) => project.published)
+    .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
+
+  return (
+    <div className="relative flex min-h-[calc(100vh-4rem)] flex-col">
       {/* Subtle background texture */}
       <div
         className="absolute inset-0 -z-10 opacity-[0.015] dark:opacity-[0.03]"
@@ -98,9 +153,9 @@ function HomeComponent() {
       {/* Gradient accent */}
       <div className="absolute inset-x-0 top-0 -z-10 h-96 bg-gradient-to-b from-neutral-50 to-transparent dark:from-neutral-900/50" />
 
-      <div className="flex flex-1 flex-col items-center justify-center py-20 sm:py-32">
-        <div className="text-center max-w-3xl mx-auto px-6">
-          <h1 className="text-4xl font-bold font-serif tracking-tight text-neutral-900 dark:text-neutral-50 sm:text-6xl">
+      <div className="flex flex-1 flex-col items-center py-20 sm:py-32">
+        <div className="mx-auto max-w-3xl px-6 text-center">
+          <h1 className="font-serif text-4xl font-bold tracking-tight text-neutral-900 sm:text-6xl dark:text-neutral-50">
             <AnimatedWords text="Hi, I'm Tim" />
           </h1>
 
@@ -111,11 +166,11 @@ function HomeComponent() {
             animate="visible"
             transition={{ delay: 0.4 }}
           >
-            Developer, tinkerer, occasional writer.
+            Developer, table tennis mentor, home cook.
           </motion.p>
 
           <motion.p
-            className="mt-4 text-base leading-7 text-neutral-500 dark:text-neutral-500 max-w-xl mx-auto"
+            className="mx-auto mt-4 max-w-xl text-base leading-7 text-neutral-500 dark:text-neutral-500"
             initial={{ y: 20, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             transition={{
@@ -125,8 +180,8 @@ function HomeComponent() {
               delay: 0.55,
             }}
           >
-            Building things with modern web tech and exploring what's possible
-            when AI meets craftsmanship.
+            Actively exploring applications of AI and the evolution of software
+            development.
           </motion.p>
 
           <motion.div
@@ -142,77 +197,187 @@ function HomeComponent() {
           >
             <Link
               to="/blog"
-              className="rounded-md bg-neutral-900 px-4 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-neutral-800 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-neutral-600 dark:bg-neutral-50 dark:text-neutral-900 dark:hover:bg-neutral-200 transition-colors"
+              className="rounded-md bg-neutral-900 px-4 py-2.5 text-sm font-semibold text-white shadow-sm transition-colors hover:bg-neutral-800 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-neutral-600 dark:bg-neutral-50 dark:text-neutral-900 dark:hover:bg-neutral-200"
             >
               Read the Blog
             </Link>
             <Link
-              to="/projects"
-              className="text-sm font-semibold leading-6 text-neutral-900 dark:text-neutral-100 hover:text-neutral-600 dark:hover:text-neutral-300 transition-colors"
+              to="/components"
+              className="text-sm leading-6 font-semibold text-neutral-900 transition-colors hover:text-neutral-600 dark:text-neutral-100 dark:hover:text-neutral-300"
             >
-              See Projects <span aria-hidden="true">→</span>
+              Component Library <span aria-hidden="true">→</span>
             </Link>
+          </motion.div>
+
+          {/* Social Links - Below CTAs */}
+          <motion.div
+            className="mt-8 flex flex-col items-center gap-3"
+            initial={{ y: 20, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            transition={{
+              type: 'spring',
+              bounce: 0.3,
+              duration: 0.8,
+              delay: 0.85,
+            }}
+          >
+            <span className="text-sm font-medium text-neutral-500 dark:text-neutral-400">
+              Connect with me
+            </span>
+            <div className="flex items-center gap-4">
+              {socialLinks.map((link, i) => (
+                <motion.a
+                  key={link.platform}
+                  href={link.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-neutral-400 transition-colors hover:text-neutral-600 dark:hover:text-neutral-300"
+                  aria-label={link.platform}
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.95 + i * 0.1, duration: 0.5 }}
+                >
+                  <link.Icon className="size-5" />
+                </motion.a>
+              ))}
+            </div>
           </motion.div>
         </div>
 
-        {/* Featured content preview */}
+        {/* Content sections */}
         <motion.div
-          className="mt-16 w-full max-w-md px-6"
+          className="mt-24 w-full max-w-2xl px-6"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.9, duration: 0.6 }}
         >
-          <div className="rounded-xl border border-neutral-200/60 bg-white/50 p-5 backdrop-blur-sm dark:border-neutral-800/60 dark:bg-neutral-900/50">
-            <p className="text-xs font-medium uppercase tracking-wider text-neutral-400 dark:text-neutral-500">
-              Recent writing
-            </p>
-            <ul className="mt-3 space-y-2">
-              {featuredPosts.map((post) => (
-                <li key={post.slug}>
+          {/* Recent Posts Section */}
+          {publishedPosts.length > 0 && (
+            <div className="mb-12">
+              <p className="mb-4 text-xs font-medium tracking-wider text-neutral-400 uppercase dark:text-neutral-500">
+                Recent posts
+              </p>
+              <div className="divide-border space-y-0 divide-y">
+                {publishedPosts.map((post) => (
                   <Link
-                    to={post.slug}
-                    className="group flex items-center justify-between text-sm text-neutral-700 hover:text-neutral-900 dark:text-neutral-300 dark:hover:text-neutral-100 transition-colors"
+                    key={post._meta.path}
+                    to="/blog/posts/$slug"
+                    params={{ slug: getSlug(post._meta.path) }}
+                    className="group block py-4"
                   >
-                    <span>{post.title}</span>
-                    <span className="text-neutral-400 opacity-0 transition-opacity group-hover:opacity-100">
-                      →
-                    </span>
+                    <div className="flex items-center justify-between">
+                      <span className="text-foreground group-hover:text-foreground/80 transition-colors">
+                        {post.title}
+                      </span>
+                      <span className="text-muted text-sm">
+                        {formatDate(post.date)}
+                      </span>
+                    </div>
+                    {/* Description reveals on hover */}
+                    <div className="grid grid-rows-[0fr] transition-[grid-template-rows] duration-300 group-hover:grid-rows-[1fr]">
+                      <div className="overflow-hidden">
+                        <p className="text-muted pt-2 text-sm">
+                          {post.summary}
+                        </p>
+                      </div>
+                    </div>
                   </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
-        </motion.div>
+                ))}
+              </div>
+            </div>
+          )}
 
-        {/* Social links */}
-        <motion.div
-          className="mt-12 flex flex-col items-center gap-4"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 1.1, duration: 0.8 }}
-        >
-          <div className="flex gap-2">
-            <span className="w-1 h-1 rounded-full bg-neutral-300 dark:bg-neutral-700" />
-            <span className="w-1 h-1 rounded-full bg-neutral-300 dark:bg-neutral-700" />
-            <span className="w-1 h-1 rounded-full bg-neutral-300 dark:bg-neutral-700" />
-          </div>
-          <div className="flex items-center gap-4">
-            {socialLinks.map((link, i) => (
-              <motion.a
-                key={link.platform}
-                href={link.href}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-neutral-400 hover:text-neutral-600 dark:hover:text-neutral-300 transition-colors"
-                aria-label={link.platform}
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 1.2 + i * 0.1, duration: 0.5 }}
-              >
-                <link.Icon className="size-5" />
-              </motion.a>
-            ))}
-          </div>
+          {/* Projects Section */}
+          {publishedProjects.length > 0 && (
+            <div>
+              <p className="mb-4 text-xs font-medium tracking-wider text-neutral-400 uppercase dark:text-neutral-500">
+                Projects
+              </p>
+              <div className="divide-border space-y-0 divide-y">
+                {publishedProjects.map((project) => {
+                  const accent: AccentColor = 'lavender'
+                  const isExpanded = expandedProjectId === project._meta.path
+
+                  return (
+                    <div key={project._meta.path} className="group">
+                      <Link
+                        to="/blog/projects/$slug"
+                        params={{ slug: getSlug(project._meta.path) }}
+                        className="block py-5"
+                        onClick={(e) => {
+                          if (window.innerWidth < 768) {
+                            e.preventDefault()
+                            setExpandedProjectId(
+                              isExpanded ? null : project._meta.path
+                            )
+                          }
+                        }}
+                      >
+                        {/* Main row */}
+                        <div className="flex items-center justify-between gap-4">
+                          <div className="flex min-w-0 items-center gap-3">
+                            <div className="min-w-0">
+                              <div className="flex flex-wrap items-center gap-2">
+                                {/* Title with accent underline */}
+                                <span className="relative">
+                                  <h3 className="text-foreground text-xl font-medium">
+                                    {project.title}
+                                  </h3>
+                                  <AccentUnderline accent={accent} />
+                                </span>
+
+                                {/* Badge */}
+                                {project.featured && (
+                                  <Badge variant="featured">Featured</Badge>
+                                )}
+                              </div>
+                            </div>
+                          </div>
+
+                          <div className="flex shrink-0 items-center gap-4">
+                            <span className="text-muted hidden font-mono text-xs sm:block">
+                              {project.tags?.slice(0, 2).join(' · ')}
+                            </span>
+                            <span className="text-muted text-sm">
+                              {formatDate(project.date)}
+                            </span>
+                            <span
+                              className={cn(
+                                'text-muted transition-transform duration-200 md:hidden',
+                                isExpanded && 'rotate-90'
+                              )}
+                            >
+                              →
+                            </span>
+                          </div>
+                        </div>
+
+                        {/* Expand section */}
+                        <div
+                          className={cn(
+                            'grid overflow-hidden transition-[grid-template-rows] duration-300',
+                            isExpanded ? 'grid-rows-[1fr]' : 'grid-rows-[0fr]',
+                            'md:grid-rows-[0fr] md:group-hover:grid-rows-[1fr]'
+                          )}
+                        >
+                          <div className="overflow-hidden">
+                            <div className="pt-4">
+                              <p className="text-muted line-clamp-2 text-sm">
+                                {project.summary}
+                              </p>
+                              <span className="text-foreground/60 group-hover:text-foreground mt-2 inline-block text-sm transition-colors">
+                                View project →
+                              </span>
+                            </div>
+                          </div>
+                        </div>
+                      </Link>
+                    </div>
+                  )
+                })}
+              </div>
+            </div>
+          )}
         </motion.div>
       </div>
 
