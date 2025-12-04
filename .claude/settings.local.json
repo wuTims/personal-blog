@@ -19,7 +19,16 @@
       "mcp__playwright__browser_press_key",
       "mcp__playwright__browser_close",
       "mcp__playwright__browser_evaluate",
-      "mcp__playwright__browser_click"
+      "mcp__playwright__browser_click",
+      "Bash(find:*)",
+      "Bash(head:*)",
+      "Bash(git -C /workspaces/web-dev-playground/wutims-blog log --oneline --all)",
+      "Bash(git -C /workspaces/web-dev-playground/wutims-blog ls-files)",
+      "Bash(cat:*)",
+      "Bash(git -C /workspaces/web-dev-playground/wutims-blog show HEAD:content-collections.ts)",
+      "Bash(grep -r ![ /workspaces/web-dev-playground/wutims-blog/content --include=*.md)",
+      "mcp__playwright__browser_resize",
+      "mcp__playwright__browser_snapshot"
     ],
     "deny": [],
     "ask": []
