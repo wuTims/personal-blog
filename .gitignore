@@ -9,6 +9,9 @@ dist
 .vercel
 .netlify
 .wrangler
+.content-collections
+.tanstack
+.playwright-mcp
 app.config.timestamp_*.js
 
 # Environment files
