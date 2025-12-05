@@ -17,6 +17,13 @@ renderer.image = ({ href, title, text }) => {
     ${caption ? `<figcaption>${caption}</figcaption>` : ''}
   </figure>`
 }
+
+renderer.link = ({ href, title, text }) => {
+  const isExternal = href?.startsWith('http')
+  const attrs = isExternal ? ' target="_blank" rel="noopener noreferrer"' : ''
+  const titleAttr = title ? ` title="${title}"` : ''
+  return `<a href="${href}"${titleAttr}${attrs}>${text}</a>`
+}
 marked.use({ renderer })
 
 const about = defineCollection({

@@ -168,7 +168,7 @@ function HomeComponent() {
       />
 
       {/* Gradient accent */}
-      <div className="absolute inset-x-0 top-0 -z-10 h-96 bg-gradient-to-b from-neutral-50 to-transparent dark:from-neutral-900/50" />
+      <div className="absolute inset-x-0 top-0 -z-10 h-96 bg-linear-to-b from-neutral-50 to-transparent dark:from-neutral-900/50" />
 
       <div className="flex flex-1 flex-col items-center py-20 sm:py-32">
         <div className="mx-auto max-w-3xl px-6 text-center">
@@ -214,7 +214,7 @@ function HomeComponent() {
           >
             <Link
               to="/blog"
-              className="rounded-md bg-neutral-900 px-4 py-2.5 text-sm font-semibold text-white shadow-sm transition-colors hover:bg-neutral-800 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-neutral-600 dark:bg-neutral-50 dark:text-neutral-900 dark:hover:bg-neutral-200"
+              className="rounded-md bg-neutral-900 px-4 py-2.5 text-sm font-semibold text-white shadow-sm transition-colors hover:bg-neutral-800 focus-visible:outline focus-visible:outline-offset-2 focus-visible:outline-neutral-600 dark:bg-neutral-50 dark:text-neutral-900 dark:hover:bg-neutral-200"
             >
               Read the Blog
             </Link>

@@ -136,7 +136,7 @@ const ProjectCard = React.memo(
       return (
         <article ref={ref as React.Ref<HTMLElement>} className={baseClasses} {...props}>
           {/* Media Container */}
-          <div className="relative aspect-[16/9] w-full overflow-hidden bg-neutral-100 dark:bg-neutral-800">
+          <div className="relative aspect-video w-full overflow-hidden bg-neutral-100 dark:bg-neutral-800">
             {mediaType === 'video' ? (
               <video
                 src={mediaSrc}
