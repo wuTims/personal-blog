@@ -1,0 +1,14 @@
+# Security Policy for wutims.com
+# https://securitytxt.org/
+
+Contact: https://github.com/wuTims
+Contact: https://www.linkedin.com/in/timlwu
+
+# Preferred language for security reports
+Preferred-Languages: en
+
+# Canonical URL for this file
+Canonical: https://wutims.com/.well-known/security.txt
+
+# Policy expiration (1 year from creation)
+Expires: 2026-12-05T00:00:00.000Z

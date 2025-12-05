@@ -1,0 +1,56 @@
+# wutims.com
+
+> Small blog about AI development and general thoughts about life. I also love teaching people about table tennis and talking about food.
+
+This is Tim Wu's personal site documenting his journey through AI development, software engineering, and life in general.
+
+## About the Author
+
+Tim Wu is a software developer based in the US with interests in:
+- AI development and tooling
+- Web development (React, TypeScript, TanStack)
+- Table tennis (teaching and playing)
+- Food (cooking, eating, and talking about it)
+- Whiskey appreciation (sherry cask finished and Islays)
+
+## Site Sections
+
+### Blog (/blog)
+Technical posts about AI development, software engineering, and personal reflections on technology.
+
+### Projects (/blog)
+Open source projects and experiments, including:
+- **Glutton**: A RAG backend system for document ingestion and semantic search, built with hexagonal architecture
+
+### About (/about)
+Personal background and journey from New Jersey to North Carolina, interests in table tennis, cooking, and technology.
+
+### Component Library (/components)
+A showcase of the site's design system built with TanStack Start, Tailwind CSS, and CVA (Class Variance Authority).
+
+## Technical Stack
+
+This site is built with:
+- TanStack Start (React meta-framework)
+- TanStack Router (type-safe routing)
+- Tailwind CSS
+- Content Collections (MDX/Markdown processing)
+- Framer Motion (animations)
+- Deployed on Cloudflare Pages
+
+## Contact
+
+- GitHub: https://github.com/wuTims
+- LinkedIn: https://www.linkedin.com/in/timlwu
+
+## Content Guidelines
+
+All blog posts and project documentation are original content. The site focuses on:
+- Learning in public
+- Practical AI development insights
+- Software engineering best practices
+- Personal growth and productivity
+
+## Licensing
+
+Blog content is available for reference and learning. Code snippets in posts are typically MIT licensed unless otherwise specified.

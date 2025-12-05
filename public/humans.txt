@@ -1,0 +1,27 @@
+/* TEAM */
+Developer: Tim Wu
+Site: https://wutims.com
+GitHub: https://github.com/wuTims
+LinkedIn: https://www.linkedin.com/in/timlwu
+Location: Los Angeles, USA
+
+/* SITE */
+Last update: 2025
+Language: English
+Doctype: HTML5
+Standards: CSS3, ES6+
+
+/* TECHNOLOGY */
+Framework: TanStack Start
+Router: TanStack Router
+Styling: Tailwind CSS
+Content: Content Collections (Markdown)
+Animation: Framer Motion
+Components: Class Variance Authority (CVA)
+Hosting: Cloudflare Pages
+
+/* THANKS */
+TanStack Team - For incredible developer tools
+Tailwind Labs - For utility-first CSS
+Framer - For smooth animations
+Cloudflare - For fast global hosting
