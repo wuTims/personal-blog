@@ -1,6 +1,12 @@
 import { createFileRoute, Link, notFound } from '@tanstack/react-router'
 import { allPosts } from 'content-collections'
 import { Container, Heading, Text } from '~/components/ui'
+import {
+  seoConfig,
+  toISODate,
+  createArticleMeta,
+  createBlogPostingSchema,
+} from '~/lib/seo'
 
 export const Route = createFileRoute('/blog/posts/$slug')({
   loader: ({ params }) => {
@@ -11,6 +17,40 @@ export const Route = createFileRoute('/blog/posts/$slug')({
       throw notFound()
     }
     return { post }
+  },
+  head: ({ loaderData }) => {
+    if (!loaderData) return {}
+    const { post } = loaderData
+    const slug = post._meta.path.replace(/\.md$/, '')
+    const postUrl = `${seoConfig.siteUrl}/blog/posts/${slug}`
+    const postImage = post.cover || seoConfig.defaultImage
+    const publishedDate = toISODate(post.date)
+
+    return {
+      meta: createArticleMeta({
+        title: post.title,
+        description: post.summary,
+        url: postUrl,
+        image: postImage,
+        publishedTime: publishedDate,
+      }),
+      links: [{ rel: 'canonical', href: postUrl }],
+      scripts: [
+        {
+          type: 'application/ld+json',
+          children: JSON.stringify(
+            createBlogPostingSchema({
+              title: post.title,
+              description: post.summary,
+              url: postUrl,
+              image: postImage,
+              publishedDate,
+              tags: post.tags,
+            })
+          ),
+        },
+      ],
+    }
   },
   component: PostPage,
 })

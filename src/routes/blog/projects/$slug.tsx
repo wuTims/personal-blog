@@ -2,6 +2,12 @@ import { createFileRoute, Link, notFound } from '@tanstack/react-router'
 import { allProjects } from 'content-collections'
 import { Container, Heading, Text } from '~/components/ui'
 import { buttonVariants } from '~/components/ui/button'
+import {
+  seoConfig,
+  toISODate,
+  createArticleMeta,
+  createSoftwareSchema,
+} from '~/lib/seo'
 
 export const Route = createFileRoute('/blog/projects/$slug')({
   loader: ({ params }) => {
@@ -12,6 +18,42 @@ export const Route = createFileRoute('/blog/projects/$slug')({
       throw notFound()
     }
     return { project }
+  },
+  head: ({ loaderData }) => {
+    if (!loaderData) return {}
+    const { project } = loaderData
+    const slug = project._meta.path.replace(/\.md$/, '')
+    const projectUrl = `${seoConfig.siteUrl}/blog/projects/${slug}`
+    const projectImage = project.cover || seoConfig.defaultImage
+    const publishedDate = toISODate(project.date)
+
+    return {
+      meta: createArticleMeta({
+        title: project.title,
+        description: project.summary,
+        url: projectUrl,
+        image: projectImage,
+        publishedTime: publishedDate,
+      }),
+      links: [{ rel: 'canonical', href: projectUrl }],
+      scripts: [
+        {
+          type: 'application/ld+json',
+          children: JSON.stringify(
+            createSoftwareSchema({
+              title: project.title,
+              description: project.summary,
+              url: projectUrl,
+              image: projectImage,
+              publishedDate,
+              tags: project.tags,
+              github: project.github,
+              demo: project.demo,
+            })
+          ),
+        },
+      ],
+    }
   },
   component: ProjectPage,
 })

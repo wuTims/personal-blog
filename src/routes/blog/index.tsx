@@ -2,8 +2,18 @@ import { createFileRoute, Link } from '@tanstack/react-router'
 import { allPosts, allProjects } from 'content-collections'
 import { motion } from 'framer-motion'
 import { Container, Heading, Text, BlogCard, ProjectCard } from '~/components/ui'
+import { seoConfig, createPageMeta } from '~/lib/seo'
 
 export const Route = createFileRoute('/blog/')({
+  head: () => ({
+    meta: createPageMeta({
+      title: 'Blog',
+      description:
+        'Posts and projects about AI development, software engineering, and life.',
+      url: `${seoConfig.siteUrl}/blog`,
+    }),
+    links: [{ rel: 'canonical', href: `${seoConfig.siteUrl}/blog` }],
+  }),
   component: BlogIndexPage,
 })
 
