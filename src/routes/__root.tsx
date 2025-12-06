@@ -29,7 +29,7 @@ export const Route = createRootRoute({
       },
       // SEO meta tags
       {
-        title: 'wutims | ai blog',
+        title: 'wutims',
       },
       {
         name: 'description',

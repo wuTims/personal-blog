@@ -28,7 +28,10 @@
       "Bash(git -C /workspaces/web-dev-playground/wutims-blog show HEAD:content-collections.ts)",
       "Bash(grep -r ![ /workspaces/web-dev-playground/wutims-blog/content --include=*.md)",
       "mcp__playwright__browser_resize",
-      "mcp__playwright__browser_snapshot"
+      "mcp__playwright__browser_snapshot",
+      "WebFetch(domain:www.beehiiv.com)",
+      "WebFetch(domain:developers.cloudflare.com)",
+      "Bash(grep:*)"
     ],
     "deny": [],
     "ask": []

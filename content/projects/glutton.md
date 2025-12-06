@@ -44,7 +44,3 @@ This means I can swap out Weaviate for Pinecone, or replace the embedding model,
 # What I Learned
 
 Building this gave me a clearer picture of how document chunking strategies, embedding dimensions, and vector similarity search all fit together. There's still a lot of depth I haven't explored, like fine-tuning embedding models or multi-modal RAG pipelines, but the goal was to understand the basics and that's what I got out of it.
-
-# Links
-
-- [GitHub Repository](https://github.com/wuTims/glutton)
