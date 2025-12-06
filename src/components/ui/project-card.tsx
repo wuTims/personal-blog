@@ -86,7 +86,7 @@ const ProjectCard = React.memo(
           radius: 'sm',
           accent: accentColor,
         }),
-        'group overflow-hidden',
+        'group flex h-full flex-col overflow-hidden',
         className
       )
 
@@ -117,7 +117,7 @@ const ProjectCard = React.memo(
           </div>
 
           {/* Content */}
-          <div className="p-4 sm:p-5">
+          <div className="flex grow flex-col p-4 sm:p-5">
             {/* Tags */}
             {tags && tags.length > 0 && (
               <div className="mb-3 flex flex-wrap gap-2">
@@ -129,10 +129,10 @@ const ProjectCard = React.memo(
               </div>
             )}
 
-            <Heading level="h3" as="h3" className="mb-2">
+            <Heading level="h3" as="h3" className="mb-2 line-clamp-2">
               {title}
             </Heading>
-            <Text variant="muted" className="leading-relaxed">
+            <Text variant="muted" className="line-clamp-2 min-h-[2lh] leading-relaxed">
               {description}
             </Text>
           </div>

@@ -274,7 +274,7 @@ function HomeComponent() {
                     className="group block py-4"
                   >
                     <div className="flex items-center justify-between">
-                      <span className="text-foreground group-hover:text-foreground/80 transition-colors">
+                      <span className="text-xl font-medium text-foreground group-hover:text-foreground/80 transition-colors">
                         {post.title}
                       </span>
                       <span className="text-muted text-sm">
@@ -327,7 +327,7 @@ function HomeComponent() {
                               <div className="flex flex-wrap items-center gap-2">
                                 {/* Title with accent underline */}
                                 <span className="relative">
-                                  <h3 className="text-foreground text-xl font-medium">
+                                  <h3 className="font-sans text-foreground text-xl font-medium">
                                     {project.title}
                                   </h3>
                                   <AccentUnderline accent={accent} />
