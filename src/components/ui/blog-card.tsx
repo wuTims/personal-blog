@@ -2,6 +2,7 @@ import * as React from 'react'
 import { cn } from '~/lib/utils'
 import { cardVariants } from './card'
 import { Heading } from './heading'
+import { ImageWithSkeleton } from './image-with-skeleton'
 import { Text } from './text'
 
 export interface BlogCardProps extends React.HTMLAttributes<HTMLElement> {
@@ -57,12 +58,11 @@ const BlogCard = React.memo(
       const content = (
         <>
           {/* Image Container */}
-          <div className="relative aspect-video w-full overflow-hidden bg-neutral-100 dark:bg-neutral-800">
-            <img
+          <div className="relative aspect-video w-full overflow-hidden">
+            <ImageWithSkeleton
               src={imageSrc}
               alt={imageAlt}
-              className="h-full w-full object-cover"
-              style={imagePosition ? { objectPosition: `center ${imagePosition}` } : undefined}
+              objectPosition={imagePosition}
             />
           </div>
 

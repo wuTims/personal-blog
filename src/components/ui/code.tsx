@@ -6,9 +6,9 @@ const codeVariants = cva('font-ibm-mono', {
   variants: {
     variant: {
       inline:
-        'bg-code-bg text-code-fg px-1.5 py-0.5 rounded-[2px] text-[0.875rem]',
+        'bg-code-bg text-code-fg px-1.5 py-0.5 rounded-sm text-sm',
       block:
-        'bg-code-bg text-code-fg p-4 rounded-[2px] text-[0.875rem] overflow-x-auto block',
+        'bg-code-bg text-code-fg p-4 rounded-sm text-sm overflow-x-auto block',
     },
   },
   defaultVariants: {

@@ -9,6 +9,7 @@ import {
 } from '~/components/ui/social-links'
 import { Badge } from '~/components/ui'
 import { cn } from '~/lib/utils'
+import { type AccentColor, accentBg } from '~/lib/color-variants'
 
 export const Route = createFileRoute('/')({
   component: HomeComponent,
@@ -102,16 +103,6 @@ const socialLinks = [
     Icon: ArticleIcon,
   },
 ]
-
-// Project type colors
-type AccentColor = 'emerald' | 'coral' | 'lavender' | 'sky'
-
-const accentBg: Record<AccentColor, string> = {
-  emerald: 'bg-emerald',
-  coral: 'bg-coral',
-  lavender: 'bg-lavender',
-  sky: 'bg-sky',
-}
 
 // Accent underline component
 function AccentUnderline({ accent }: { accent: AccentColor }) {

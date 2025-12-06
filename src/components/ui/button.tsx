@@ -17,8 +17,8 @@ const buttonVariants = cva(
         lg: 'px-4 py-2 text-base sm:px-6 sm:py-3 sm:text-lg',
       },
       radius: {
-        default: 'rounded-[6px]',
-        sm: 'rounded-[2px]',
+        default: 'rounded-md',
+        sm: 'rounded-sm',
       },
     },
     defaultVariants: {

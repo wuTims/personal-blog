@@ -3,13 +3,13 @@ import * as React from 'react'
 import { cn } from '~/lib/utils'
 
 const cardVariants = cva(
-  'bg-card-background border transition-[box-shadow,transform,border-color] duration-300 ease-in-out',
+  'bg-card border transition-[box-shadow,transform,border-color] duration-300 ease-in-out',
   {
     variants: {
       variant: {
-        default: 'border-[#e5e5e5]',
-        emphasis: 'border-border-emphasis mac-shadow-static',
-        emphasisHover: 'border-border-emphasis mac-shadow',
+        default: 'border-border',
+        emphasis: 'border-neutral-300 dark:border-neutral-700 mac-shadow-static',
+        emphasisHover: 'border-neutral-300 dark:border-neutral-700 mac-shadow',
       },
       padding: {
         none: 'p-0',
@@ -18,9 +18,9 @@ const cardVariants = cva(
         lg: 'p-6 sm:p-8',
       },
       radius: {
-        sm: 'rounded-[2px]',
-        default: 'rounded-[6px]',
-        lg: 'rounded-[8px]',
+        sm: 'rounded-sm',
+        default: 'rounded-md',
+        lg: 'rounded-lg',
       },
       accent: {
         none: '',

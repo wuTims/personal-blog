@@ -2,6 +2,13 @@ import { cva, type VariantProps } from 'class-variance-authority'
 import { AnimatePresence, motion } from 'framer-motion'
 import * as React from 'react'
 import { cn } from '~/lib/utils'
+import {
+  type AccentColor,
+  accentActivePill,
+  accentBgLight,
+  accentText,
+} from '~/lib/color-variants'
+import { CloseIcon, MenuIcon } from './icons'
 
 /* ============================================
    Navbar Component
@@ -145,6 +152,23 @@ const NavbarContent = React.memo(
 NavbarContent.displayName = 'NavbarContent'
 
 /* ============================================
+   Shared Link Color Compound Variants
+   - Uses centralized color-variants.ts utilities
+   ============================================ */
+
+const accentColors: AccentColor[] = ['emerald', 'coral', 'lavender', 'sky']
+
+/** Generate active compound variants for accent colors with optional glow */
+const createAccentCompoundVariants = (options?: { withGlow?: boolean }) =>
+  accentColors.map((color) => ({
+    variant: color,
+    active: true as const,
+    className: options?.withGlow
+      ? `${accentText[color]} ${accentActivePill[color]}`
+      : `${accentText[color]} ${accentBgLight[color]}`,
+  }))
+
+/* ============================================
    NavbarLink Component
    - Individual navigation link
    ============================================ */
@@ -187,26 +211,8 @@ const navbarLinkVariants = cva(
         active: true,
         className: 'text-foreground bg-neutral-100 dark:bg-neutral-800',
       },
-      {
-        variant: 'emerald',
-        active: true,
-        className: 'text-emerald bg-emerald/10 dark:bg-emerald/20 shadow-sm dark:glow-emerald',
-      },
-      {
-        variant: 'coral',
-        active: true,
-        className: 'text-coral bg-coral/10 dark:bg-coral/20 shadow-sm dark:glow-coral',
-      },
-      {
-        variant: 'lavender',
-        active: true,
-        className: 'text-lavender bg-lavender/10 dark:bg-lavender/20 shadow-sm dark:glow-lavender',
-      },
-      {
-        variant: 'sky',
-        active: true,
-        className: 'text-sky bg-sky/10 dark:bg-sky/20 shadow-sm dark:glow-sky',
-      },
+      // Accent colors with glow effect (uses color-variants.ts)
+      ...createAccentCompoundVariants({ withGlow: true }),
     ],
     defaultVariants: {
       variant: 'default',
@@ -264,28 +270,7 @@ const NavbarToggle = React.memo(
           )}
           {...props}
         >
-          <svg
-            className="h-5 w-5"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-          >
-            {isOpen ? (
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M6 18L18 6M6 6l12 12"
-              />
-            ) : (
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M4 6h16M4 12h16M4 18h16"
-              />
-            )}
-          </svg>
+          {isOpen ? <CloseIcon /> : <MenuIcon />}
         </button>
       )
     }
@@ -525,19 +510,7 @@ const NavbarSidebarHeader = React.memo(
               className="inline-flex h-9 w-9 items-center justify-center rounded-md text-foreground transition-colors hover:bg-neutral-100 dark:hover:bg-neutral-800"
               aria-label="Close menu"
             >
-              <svg
-                className="h-5 w-5"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M6 18L18 6M6 6l12 12"
-                />
-              </svg>
+              <CloseIcon />
             </button>
           )}
         </div>
@@ -626,26 +599,8 @@ const navbarSidebarLinkVariants = cva(
         className:
           'bg-neutral-100 text-neutral-900 dark:bg-neutral-800 dark:text-neutral-50',
       },
-      {
-        variant: 'emerald',
-        active: true,
-        className: 'bg-emerald/10 text-emerald dark:bg-emerald/20',
-      },
-      {
-        variant: 'coral',
-        active: true,
-        className: 'bg-coral/10 text-coral dark:bg-coral/20',
-      },
-      {
-        variant: 'lavender',
-        active: true,
-        className: 'bg-lavender/10 text-lavender dark:bg-lavender/20',
-      },
-      {
-        variant: 'sky',
-        active: true,
-        className: 'bg-sky/10 text-sky dark:bg-sky/20',
-      },
+      // Accent colors without glow (uses color-variants.ts)
+      ...createAccentCompoundVariants({ withGlow: false }),
     ],
     defaultVariants: {
       variant: 'default',

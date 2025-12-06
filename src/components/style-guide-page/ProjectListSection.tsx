@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { cn } from '~/lib/utils'
 import { Badge, Heading, Text } from '~/components/ui'
+import { type AccentColor, accentBg, accentBorder, accentText } from '~/lib/color-variants'
 
 // Project types for indicators
 type ProjectType = 'cli' | 'web' | 'design' | 'tool'
@@ -10,29 +11,6 @@ const projectTypeLabels: Record<ProjectType, string> = {
   web: 'Web',
   design: 'Design',
   tool: 'Tool',
-}
-
-type AccentColor = 'emerald' | 'coral' | 'lavender' | 'sky'
-
-const accentBg: Record<AccentColor, string> = {
-  emerald: 'bg-emerald',
-  coral: 'bg-coral',
-  lavender: 'bg-lavender',
-  sky: 'bg-sky',
-}
-
-const accentBorder: Record<AccentColor, string> = {
-  emerald: 'border-emerald',
-  coral: 'border-coral',
-  lavender: 'border-lavender',
-  sky: 'border-sky',
-}
-
-const accentText: Record<AccentColor, string> = {
-  emerald: 'text-emerald',
-  coral: 'text-coral',
-  lavender: 'text-lavender',
-  sky: 'text-sky',
 }
 
 const sampleProjects = [
@@ -117,7 +95,7 @@ function TypeIndicator({
   return (
     <span
       className={cn(
-        'text-[10px] font-mono uppercase tracking-wider px-1.5 py-0.5 rounded-sm border',
+        'text-2xs font-mono uppercase tracking-wider px-1.5 py-0.5 rounded-sm border',
         accentBorder[accent],
         accentText[accent]
       )}

@@ -12,35 +12,18 @@ import {
   navbarLinkVariants,
   navbarSidebarLinkVariants,
 } from '~/components/ui'
+import { type AccentColor, accentActivePill, accentActiveText } from '~/lib/color-variants'
 
 interface SiteNavbarProps {
   className?: string
 }
 
-type LinkVariant = 'emerald' | 'coral' | 'lavender' | 'sky'
-
-const navLinks: { to: string; label: string; variant: LinkVariant }[] = [
+const navLinks: { to: string; label: string; variant: AccentColor }[] = [
   { to: '/', label: 'Home', variant: 'emerald' },
   { to: '/blog', label: 'Blog', variant: 'sky' },
   { to: '/about', label: 'About', variant: 'coral' },
   { to: '/components', label: 'Library', variant: 'lavender' },
 ]
-
-// Pill backgrounds (matches navbarLinkVariants active bg)
-const pillBg: Record<LinkVariant, string> = {
-  emerald: 'bg-emerald/10 dark:bg-emerald/20 shadow-sm dark:glow-emerald',
-  coral: 'bg-coral/10 dark:bg-coral/20 shadow-sm dark:glow-coral',
-  lavender: 'bg-lavender/10 dark:bg-lavender/20 shadow-sm dark:glow-lavender',
-  sky: 'bg-sky/10 dark:bg-sky/20 shadow-sm dark:glow-sky',
-}
-
-// Active text colors (without background - pill handles that)
-const activeText: Record<LinkVariant, string> = {
-  emerald: 'text-emerald font-semibold',
-  coral: 'text-coral font-semibold',
-  lavender: 'text-lavender font-semibold',
-  sky: 'text-sky font-semibold',
-}
 
 export function SiteNavbar({ className }: SiteNavbarProps) {
   const [isOpen, setIsOpen] = useState(false)
@@ -66,14 +49,14 @@ export function SiteNavbar({ className }: SiteNavbarProps) {
               <Link
                 key={link.to}
                 to={link.to}
-                className={`relative ${navbarLinkVariants({ variant: link.variant })} ${isActive ? activeText[link.variant] : ''}`}
+                className={`relative ${navbarLinkVariants({ variant: link.variant })} ${isActive ? accentActiveText[link.variant] : ''}`}
               >
                 {isActive && (
                   <motion.span
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     transition={{ duration: 0.2 }}
-                    className={pillBg[link.variant]}
+                    className={accentActivePill[link.variant]}
                     style={{
                       position: 'absolute',
                       inset: 0,

@@ -5,8 +5,8 @@ import { cn } from '~/lib/utils'
 const headingVariants = cva('font-playfair font-semibold', {
   variants: {
     level: {
-      h1: 'text-3xl leading-tight sm:text-4xl md:text-5xl lg:text-[3.5rem]',
-      h2: 'text-2xl leading-snug sm:text-3xl md:text-[1.875rem]',
+      h1: 'text-3xl leading-tight sm:text-4xl md:text-5xl lg:text-display',
+      h2: 'text-2xl leading-snug sm:text-3xl',
       h3: 'text-xl leading-snug sm:text-2xl',
       h4: 'text-lg leading-normal sm:text-xl',
       h5: 'text-base leading-normal sm:text-lg',

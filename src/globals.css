@@ -48,6 +48,10 @@
   --font-family-serif: 'Playfair Display', ui-serif, Georgia, Cambria, 'Times New Roman', Times, serif;
   --font-family-mono: 'IBM Plex Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
 
+  /* Custom font sizes */
+  --font-size-2xs: 10px;
+  --font-size-display: 3.5rem;
+
   /* Spacing */
   --spacing-base: 0.25rem;
 
@@ -380,6 +384,20 @@
    ============================================ */
 
 @layer utilities {
+  /* Skeleton shimmer animation */
+  @keyframes shimmer {
+    0% {
+      transform: translateX(-100%);
+    }
+    100% {
+      transform: translateX(100%);
+    }
+  }
+
+  .animate-shimmer {
+    animation: shimmer 1.5s infinite;
+  }
+
   /* Mac-Style Card Shadow */
   .mac-shadow {
     box-shadow: var(--shadow-mac);
