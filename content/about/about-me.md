@@ -17,7 +17,7 @@ I picked up most of my interests and habits (good and bad) here in NJ. I did spo
 
 Tar Heel bred. 
 
-I moved to North Carolina midway through high school. For my supplemental essay for UNC Chapel Hill, I wrote about fried rice ([I still have it saved](https://media.wutims.com/fried_rice_essay.pdf)). It's such a simple dish, but it holds so much meaning for me - I call it the "Ratatouille" dish. I decided to study Computer Science, justifying it as a perfect combination of problem solving, math, science, and video games. I also joined the Table Tennis Club and started playing semi-competitively again, after having stopped playing since middle school. 
+I moved to North Carolina midway through high school. For my supplemental essay for UNC Chapel Hill, I wrote about fried rice ([I still have it saved](/blog/posts/fried-rice)). It's such a simple dish, but it holds so much meaning for me - I call it the "Ratatouille" dish. I decided to study Computer Science, justifying it as a perfect combination of problem solving, math, science, and video games. I also joined the Table Tennis Club and started playing semi-competitively again, after having stopped playing since middle school. 
 
 ![Yamazaki flight](https://media.wutims.com/yamazaki_whiskey_800px.jpg)
 
