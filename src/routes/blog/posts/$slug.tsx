@@ -1,6 +1,6 @@
 import { createFileRoute, Link, notFound } from '@tanstack/react-router'
 import { allPosts } from 'content-collections'
-import { Container, Heading, Text } from '~/components/ui'
+import { Container, Heading, Text, NewsletterSubscribe } from '~/components/ui'
 import {
   seoConfig,
   toISODate,
@@ -120,6 +120,16 @@ function PostPage() {
           <article
             className="prose"
             dangerouslySetInnerHTML={{ __html: post.html }}
+          />
+        </div>
+
+        {/* Newsletter CTA */}
+        <div className="mt-12 border-t border-border pt-12">
+          <NewsletterSubscribe
+            variant="card"
+            accentColor="coral"
+            heading="Get posts like this in your inbox"
+            subheading="Subscribe for AI tips and blog updates."
           />
         </div>
       </Container>
