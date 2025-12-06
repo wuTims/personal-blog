@@ -48,9 +48,11 @@
   --font-family-serif: 'Playfair Display', ui-serif, Georgia, Cambria, 'Times New Roman', Times, serif;
   --font-family-mono: 'IBM Plex Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
 
-  /* Custom font sizes */
-  --font-size-2xs: 10px;
-  --font-size-display: 3.5rem;
+  /* Custom font sizes - use --text-* for Tailwind v4 utilities */
+  --text-2xs: 10px;
+  --text-2xs--line-height: 1.2;
+  --text-display: 3.5rem;
+  --text-display--line-height: 1.1;
 
   /* Spacing */
   --spacing-base: 0.25rem;

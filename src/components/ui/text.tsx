@@ -2,7 +2,7 @@ import { cva, type VariantProps } from 'class-variance-authority'
 import * as React from 'react'
 import { cn } from '~/lib/utils'
 
-const textVariants = cva('font-inter', {
+const textVariants = cva('font-sans', {
   variants: {
     size: {
       xs: 'text-xs',
