@@ -6,8 +6,10 @@
   "scripts": {
     "dev": "vite dev",
     "build": "vite build && tsc --noEmit",
-    "postbuild": "pnpm run sitemap",
+    "postbuild": "pnpm run sitemap && pnpm run rss",
     "sitemap": "tsx scripts/generate-sitemap.ts",
+    "rss": "tsx scripts/generate-rss.ts",
+    "newsletter:card": "tsx scripts/generate-newsletter-cards.ts",
     "start": "node .output/server/index.mjs",
     "preview": "pnpm run build && wrangler dev --ip 0.0.0.0 --port 8787",
     "deploy": "pnpm run build && wrangler deploy",

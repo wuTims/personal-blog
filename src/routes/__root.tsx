@@ -135,6 +135,8 @@ export const Route = createRootRoute({
       },
       // Application CSS
       { rel: 'stylesheet', href: appCss },
+      // RSS Feed
+      { rel: 'alternate', type: 'application/rss+xml', title: 'wutims RSS Feed', href: '/feed.xml' },
     ],
   }),
   shellComponent: RootDocument,
