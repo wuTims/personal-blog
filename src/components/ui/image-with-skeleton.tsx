@@ -83,7 +83,7 @@ const ImageWithSkeleton = React.forwardRef<HTMLImageElement, ImageWithSkeletonPr
           <div
             className={cn(
               'absolute inset-0',
-              'bg-gradient-to-r from-transparent via-neutral-100/50 to-transparent dark:via-neutral-600/50',
+              'bg-linear-to-r from-transparent via-neutral-100/50 to-transparent dark:via-neutral-600/50',
               'animate-shimmer'
             )}
           />
