@@ -113,25 +113,23 @@ export const Route = createRootRoute({
       { rel: 'apple-touch-icon', sizes: '180x180', href: '/apple-touch-icon.png' },
       // Web App Manifest
       { rel: 'manifest', href: '/site.webmanifest' },
-      // Preconnect to Google Fonts with crossorigin for better CORS handling
-      { rel: 'preconnect', href: 'https://fonts.googleapis.com' },
-      { rel: 'preconnect', href: 'https://fonts.gstatic.com', crossOrigin: 'anonymous' },
-      // Preconnect to media CDN for OG images
-      { rel: 'preconnect', href: 'https://media.wutims.com' },
-      // Preload Google Fonts CSS to start fetching immediately
-      // Using block instead of swap to prevent FOUT (Flash of Unstyled Text)
-      // block: Text invisible max 3s while font loads, then renders with correct font
-      // This eliminates jarring font swaps
+      // Preconnect to media CDN for fonts and OG images
+      { rel: 'preconnect', href: 'https://media.wutims.com', crossOrigin: 'anonymous' },
+      // Preload critical fonts - Inter 400 (body) and Playfair 600 (headings)
+      // Using font-display: swap in CSS for better LCP
       {
         rel: 'preload',
-        as: 'style',
-        href: 'https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600&family=Inter:wght@400;600&family=IBM+Plex+Mono:wght@400;600&display=block',
+        as: 'font',
+        type: 'font/woff2',
+        href: 'https://media.wutims.com/fonts/inter-400.woff2',
+        crossOrigin: 'anonymous',
       },
-      // Load Google Fonts - using block to prevent font swapping flash
-      // Only essential weights: 400 (regular), 600 (semibold/bold)
       {
-        rel: 'stylesheet',
-        href: 'https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600&family=Inter:wght@400;600&family=IBM+Plex+Mono:wght@400;600&display=block',
+        rel: 'preload',
+        as: 'font',
+        type: 'font/woff2',
+        href: 'https://media.wutims.com/fonts/playfair-display-600.woff2',
+        crossOrigin: 'anonymous',
       },
       // Application CSS
       { rel: 'stylesheet', href: appCss },
