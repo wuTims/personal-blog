@@ -5,8 +5,19 @@
     <link>https://wutims.com</link>
     <description>Small blog about AI development and general thoughts about life. I also love teaching people about table tennis and talking about food.</description>
     <language>en-us</language>
-    <lastBuildDate>Wed, 03 Dec 2025 00:00:00 GMT</lastBuildDate>
+    <lastBuildDate>Mon, 08 Dec 2025 00:00:00 GMT</lastBuildDate>
     <atom:link href="https://wutims.com/feed.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>How I Built My Blog with AI</title>
+      <link>https://wutims.com/blog/posts/building-a-website</link>
+      <description>I used AI to build a complete website in less than a week. Here&apos;s how I did it and what I learned.</description>
+      <pubDate>Mon, 08 Dec 2025 00:00:00 GMT</pubDate>
+      <guid isPermaLink="true">https://wutims.com/blog/posts/building-a-website</guid>
+      <category>ai</category>
+      <category>frontend</category>
+      <category>web development</category>
+      <category>walkthrough</category>
+    </item>
     <item>
       <title>The First POST</title>
       <link>https://wutims.com/blog/posts/the-first-post</link>
