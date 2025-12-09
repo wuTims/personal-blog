@@ -3,12 +3,13 @@
  * Run with: pnpm exec tsx scripts/generate-newsletter-cards.ts --slug=post-name
  * Or: pnpm exec tsx scripts/generate-newsletter-cards.ts --days=7
  *
- * Generates email-safe HTML cards for beehiiv newsletters
- * Output: dist/newsletter-cards/{slug}.html
+ * Generates email-safe HTML cards and screenshots for beehiiv newsletters
+ * Output: dist/newsletter-cards/{slug}/card.html and card.png
  */
 
 import { writeFileSync, mkdirSync, existsSync } from 'fs'
 import { join } from 'path'
+import { chromium } from 'playwright'
 
 // Import directly from the generated content-collections
 import { allPosts } from '../.content-collections/generated/index.js'
@@ -16,6 +17,10 @@ import { allPosts } from '../.content-collections/generated/index.js'
 const SITE_URL = 'https://wutims.com'
 const MEDIA_URL = 'https://media.wutims.com'
 const OUTPUT_DIR = join(process.cwd(), 'dist', 'newsletter-cards')
+
+// Screenshot settings
+const SCREENSHOT_WIDTH = 550
+const SCREENSHOT_HEIGHT = 515
 
 // Design tokens for email-safe inline styles
 const styles = {
@@ -188,23 +193,42 @@ function generateCardHtml(post: Post): string {
 `
 }
 
-function parseArgs(): { slug?: string; days?: number } {
+async function takeScreenshot(htmlPath: string, outputPath: string): Promise<void> {
+  const browser = await chromium.launch()
+  const context = await browser.newContext({
+    viewport: { width: SCREENSHOT_WIDTH, height: SCREENSHOT_HEIGHT },
+    deviceScaleFactor: 2, // 2x for higher quality
+  })
+  const page = await context.newPage()
+
+  await page.goto(`file://${htmlPath}`)
+  await page.screenshot({
+    path: outputPath,
+    type: 'png',
+  })
+
+  await browser.close()
+}
+
+function parseArgs(): { slug?: string; days?: number; skipScreenshot?: boolean } {
   const args = process.argv.slice(2)
-  const result: { slug?: string; days?: number } = {}
+  const result: { slug?: string; days?: number; skipScreenshot?: boolean } = {}
 
   for (const arg of args) {
     if (arg.startsWith('--slug=')) {
       result.slug = arg.replace('--slug=', '')
     } else if (arg.startsWith('--days=')) {
       result.days = parseInt(arg.replace('--days=', ''), 10)
+    } else if (arg === '--no-screenshot') {
+      result.skipScreenshot = true
     }
   }
 
   return result
 }
 
-function generateNewsletterCards() {
-  const { slug, days } = parseArgs()
+async function generateNewsletterCards() {
+  const { slug, days, skipScreenshot } = parseArgs()
 
   // Ensure output directory exists
   if (!existsSync(OUTPUT_DIR)) {
@@ -238,20 +262,43 @@ function generateNewsletterCards() {
     console.error('Usage: pnpm newsletter:card --slug=<post-slug>')
     console.error('       pnpm newsletter:card --days=<number>')
     console.error('')
+    console.error('Options:')
+    console.error('  --no-screenshot  Skip screenshot generation')
+    console.error('')
     console.error('Examples:')
     console.error('  pnpm newsletter:card --slug=my-first-post')
     console.error('  pnpm newsletter:card --days=7')
+    console.error('  pnpm newsletter:card --slug=my-post --no-screenshot')
     process.exit(1)
   }
 
   // Generate cards for each post
   for (const post of postsToProcess) {
     const postSlug = getSlug(post._meta.path)
-    const html = generateCardHtml(post)
-    const outputPath = join(OUTPUT_DIR, `${postSlug}.html`)
+    const postDir = join(OUTPUT_DIR, postSlug)
 
-    writeFileSync(outputPath, html)
-    console.log(`✓ Generated: dist/newsletter-cards/${postSlug}.html`)
+    // Create post-specific directory
+    if (!existsSync(postDir)) {
+      mkdirSync(postDir, { recursive: true })
+    }
+
+    const html = generateCardHtml(post)
+    const htmlPath = join(postDir, 'card.html')
+    const pngPath = join(postDir, 'card.png')
+
+    // Write HTML
+    writeFileSync(htmlPath, html)
+    console.log(`✓ Generated: dist/newsletter-cards/${postSlug}/card.html`)
+
+    // Take screenshot
+    if (!skipScreenshot) {
+      try {
+        await takeScreenshot(htmlPath, pngPath)
+        console.log(`✓ Screenshot: dist/newsletter-cards/${postSlug}/card.png`)
+      } catch (error) {
+        console.error(`✗ Screenshot failed for ${postSlug}:`, error)
+      }
+    }
   }
 
   console.log('')
