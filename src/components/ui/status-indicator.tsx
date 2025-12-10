@@ -53,13 +53,13 @@ export function StatusIndicator({
       )}
     >
       <GlowingDot />
-      <span className="flex items-center gap-1">
+      <span className="relative flex items-center gap-1 overflow-hidden">
         {label}{' '}
-        {/* Hidden measurement container */}
+        {/* Hidden measurement container - must not cause overflow */}
         <span
           ref={measureContainerRef}
           aria-hidden="true"
-          className="pointer-events-none absolute opacity-0"
+          className="pointer-events-none absolute left-0 top-0 opacity-0"
         >
           {topics.map((topic, i) => (
             <span

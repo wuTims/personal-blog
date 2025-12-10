@@ -37,13 +37,13 @@ export function Footer() {
                                 href="https://newsletter.wutims.com"
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                className="text-sm text-muted hover:text-foreground transition-colors"
+                                className="w-fit text-sm text-muted hover:text-foreground transition-colors"
                             >
                                 Newsletter Archive
                             </a>
                             <a
                                 href="/feed.xml"
-                                className="inline-flex items-center gap-1.5 text-sm text-muted hover:text-foreground transition-colors"
+                                className="inline-flex w-fit items-center gap-1.5 text-sm text-muted hover:text-foreground transition-colors"
                             >
                                 <Rss className="h-3.5 w-3.5" />
                                 RSS Feed

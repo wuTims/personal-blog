@@ -3,7 +3,7 @@ import { cn } from '~/lib/utils'
 import { GithubIcon, LinkedinIcon, ArticleIcon } from './icons'
 
 const socialLinkVariants = cva(
-  'inline-flex items-center gap-2 transition-colors',
+  'inline-flex w-fit items-center gap-2 transition-colors',
   {
     variants: {
       variant: {
