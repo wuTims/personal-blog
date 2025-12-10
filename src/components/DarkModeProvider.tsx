@@ -57,12 +57,11 @@ export function DarkModeProvider({ children, initialTheme }: DarkModeProviderPro
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
-  // Directly update <html> className when resolved theme changes
-  // This avoids hydration mismatch and gives instant visual feedback
+  // Directly update <html> className when theme changes
+  // Only handles DOM updates - state is already updated by setTheme
   useEffect(() => {
     const html = document.documentElement
     const resolved = resolveTheme(theme)
-    setResolvedTheme(resolved)
 
     if (resolved === 'dark') {
       html.classList.add('dark')
@@ -73,8 +72,12 @@ export function DarkModeProvider({ children, initialTheme }: DarkModeProviderPro
 
   const contextValue = useMemo(() => {
     const setTheme = async (newTheme: Theme) => {
-      // Update local state (useEffect will update <html> className immediately)
+      // Resolve the theme first to avoid double-render during view transitions
+      const resolved = resolveTheme(newTheme)
+
+      // Update both states together to prevent extra render cycles
       setThemeState(newTheme)
+      setResolvedTheme(resolved)
 
       // Persist to server (cookie) in background
       await setThemeServerFn({ data: { theme: newTheme } })
