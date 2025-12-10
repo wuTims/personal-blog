@@ -152,14 +152,14 @@ function HomeComponent() {
     <div className="relative flex min-h-[calc(100vh-4rem)] flex-col">
       {/* Subtle background texture */}
       <div
-        className="absolute inset-0 -z-10 opacity-[0.015] dark:opacity-[0.03]"
+        className="absolute inset-0 z-[var(--z-background)] opacity-[0.015] dark:opacity-[0.03]"
         style={{
           backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E")`,
         }}
       />
 
       {/* Gradient accent */}
-      <div className="absolute inset-x-0 top-0 -z-10 h-96 bg-linear-to-b from-neutral-50 to-transparent dark:from-neutral-900/50" />
+      <div className="absolute inset-x-0 top-0 z-[var(--z-background)] h-96 bg-linear-to-b from-neutral-50 to-transparent dark:from-neutral-900/50" />
 
       <div className="flex flex-1 flex-col items-center py-20 sm:py-32">
         <div className="mx-auto max-w-3xl px-6 text-center">
@@ -377,9 +377,6 @@ function HomeComponent() {
                               <p className="text-muted line-clamp-2 text-sm">
                                 {project.summary}
                               </p>
-                              <span className="text-foreground/60 group-hover:text-foreground mt-2 inline-block text-sm transition-colors">
-                                View project →
-                              </span>
                             </div>
                           </div>
                         </div>

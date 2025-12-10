@@ -65,7 +65,7 @@ export function SiteNavbar({ className }: SiteNavbarProps) {
                     }}
                   />
                 )}
-                <span className="relative z-10">{link.label}</span>
+                <span className="relative z-[var(--z-elevated)]">{link.label}</span>
               </Link>
             )
           })}

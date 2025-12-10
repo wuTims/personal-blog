@@ -130,6 +130,17 @@
   --shadow-mac: 6px 6px 0 0 #f0f0f0;
   --shadow-mac-hover: 8px 8px 0 0 #ccc;
 
+  /* Z-Index Scale - Semantic stacking layers */
+  --z-background: -10;
+  --z-base: 0;
+  --z-elevated: 10;
+  --z-sticky: 50;
+  --z-overlay: 60;
+  --z-modal-backdrop: 65;
+  --z-modal: 70;
+  --z-toast: 80;
+  --z-tooltip: 90;
+
   /* Accent glow shadows (for dark mode hover effects) */
   --shadow-glow-emerald: 0 0 12px -2px var(--color-emerald);
   --shadow-glow-coral: 0 0 12px -2px var(--color-coral);
@@ -167,6 +178,7 @@
 
 @layer base {
   /* ========== Base Styles ========== */
+
   body {
     background-color: var(--color-background);
     color: var(--color-foreground);
@@ -177,6 +189,8 @@
     -moz-osx-font-smoothing: grayscale;
     /* Ensure text remains visible during font load (FOIT prevention) */
     text-rendering: optimizeLegibility;
+    /* Prevent horizontal overflow - only on body (not html) to preserve scroll position during view transitions */
+    overflow-x: hidden;
   }
 
   /* ========== Typography Reset ========== */
@@ -375,6 +389,15 @@
     max-width: 100%;
     height: auto;
     border-radius: var(--radius-md);
+  }
+
+  /* Responsive iframes (YouTube embeds, etc.) */
+  .prose iframe {
+    max-width: 100%;
+    height: auto;
+    aspect-ratio: 16 / 9;
+    border-radius: var(--radius-md);
+    margin: 2rem 0;
   }
 
   .prose figure {

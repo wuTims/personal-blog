@@ -23,11 +23,11 @@ const navbarVariants = cva(
       variant: {
         default: 'bg-background border-b border-border',
         transparent: 'bg-transparent',
-        glass: 'bg-white/50 dark:bg-neutral-950/60 backdrop-blur-md backdrop-saturate-150 border-b border-white/20 dark:border-white/10 shadow-sm shadow-black/5 dark:shadow-black/20',
+        glass: 'bg-white/80 dark:bg-neutral-950/80 sm:bg-white/50 sm:dark:bg-neutral-950/60 backdrop-blur-sm sm:backdrop-blur-md sm:backdrop-saturate-150 border-b border-white/20 dark:border-white/10 shadow-sm shadow-black/5 dark:shadow-black/20',
         elevated: 'bg-card border-b border-border shadow-sm',
       },
       sticky: {
-        true: 'sticky top-0 z-60',
+        true: 'sticky top-0 z-[var(--z-sticky)] will-change-transform',
         false: '',
       },
     },
@@ -396,7 +396,7 @@ NavbarToggleAnimated.displayName = 'NavbarToggleAnimated'
    ============================================ */
 
 const sidebarVariants = cva(
-  'fixed top-0 z-50 h-full bg-background shadow-xl sm:hidden',
+  'fixed top-0 z-[var(--z-modal)] h-full bg-background shadow-xl sm:hidden',
   {
     variants: {
       position: {
@@ -447,7 +447,7 @@ const NavbarSidebar = React.memo(
             <>
               {/* Backdrop */}
               <motion.div
-                className="fixed inset-0 z-40 bg-black/50 backdrop-blur-sm sm:hidden"
+                className="fixed inset-0 z-[var(--z-modal-backdrop)] bg-black/50 backdrop-blur-sm sm:hidden"
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
