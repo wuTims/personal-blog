@@ -129,7 +129,7 @@ const ProjectCard = React.memo(
               </div>
             )}
 
-            <Heading level="h3" as="h3" className="mb-2 line-clamp-2">
+            <Heading level="h3" as="h3" className="mb-2 min-h-[2lh] line-clamp-2">
               {title}
             </Heading>
             <Text variant="muted" className="line-clamp-2 min-h-[2lh] leading-relaxed">
