@@ -39,6 +39,12 @@
     <priority>0.7</priority>
   </url>
   <url>
+    <loc>https://wutims.com/blog/projects/agentbeats-tau2-bench</loc>
+    <lastmod>2025-01-15T00:00:00.000Z</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
     <loc>https://wutims.com/blog/projects/glutton</loc>
     <lastmod>2025-09-28T00:00:00.000Z</lastmod>
     <changefreq>monthly</changefreq>
