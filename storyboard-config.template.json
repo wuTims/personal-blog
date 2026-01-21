@@ -1,0 +1,155 @@
+[
+  {
+    "id": "intro",
+    "title": "Title Text",
+    "subtitle": "Subtitle Text",
+    "backgroundColor": "bg-black",
+    "textColor": "light",
+    "media": [],
+    "titleAnimation": "scaleUp",
+    "subtitleAnimation": "blur"
+  },
+  {
+    "id": "section-1",
+    "title": "Section Title",
+    "backgroundColor": "bg-[#1a1a2e]",
+    "textColor": "light",
+    "media": [
+      {
+        "type": "image",
+        "src": "image-1.jpg",
+        "alt": "Image description",
+        "animation": "scaleBounce",
+        "rotation": 8,
+        "offsetX": -45,
+        "offsetY": -20
+      },
+      {
+        "type": "image",
+        "src": "image-2.jpg",
+        "alt": "Image description",
+        "animation": "scaleBounce",
+        "delay": 0.2,
+        "rotation": -8,
+        "offsetX": 45,
+        "offsetY": -10
+      },
+      {
+        "type": "video",
+        "src": "video-1.mp4",
+        "alt": "Video description",
+        "animation": "fadeUp",
+        "delay": 0.6
+      }
+    ],
+    "mediaLayout": "scattered",
+    "footerText": "Footer text here",
+    "footerBadge": { "text": "Badge text", "rotation": 0 },
+    "titleAnimation": "scaleUp",
+    "footerAnimation": "fadeUp",
+    "effect": "snow"
+  },
+  {
+    "id": "section-2",
+    "title": "Section Title",
+    "backgroundColor": "bg-[#0f3460]",
+    "backgroundGradient": {
+      "from": "#0f3460",
+      "to": "#16213e",
+      "direction": "to-b"
+    },
+    "textColor": "light",
+    "media": [
+      { "type": "image", "src": "image-1.jpg", "alt": "Image description", "animation": "scaleUp", "delay": 0 },
+      { "type": "image", "src": "image-2.jpg", "alt": "Image description", "animation": "scaleUp", "delay": 0.2 },
+      { "type": "image", "src": "image-3.jpg", "alt": "Image description", "animation": "scaleUp", "delay": 0.4 },
+      { "type": "image", "src": "image-4.jpg", "alt": "Image description", "animation": "scaleUp", "delay": 0.6 }
+    ],
+    "mediaLayout": "checkerboard",
+    "footerText": "Footer text here",
+    "footerSparkle": true,
+    "mediaSparkle": true,
+    "titleAnimation": "slideLeft",
+    "footerAnimation": "fadeUp"
+  },
+  {
+    "id": "section-3",
+    "title": "Section Title",
+    "backgroundColor": "bg-[#2a9d8f]",
+    "textColor": "light",
+    "media": [
+      { "type": "image", "src": "small-1.jpg", "alt": "Image description", "animation": "scaleBounce", "delay": 0 },
+      { "type": "image", "src": "small-2.jpg", "alt": "Image description", "animation": "scaleBounce", "delay": 0.1 },
+      { "type": "image", "src": "large-1.jpg", "alt": "Image description", "animation": "scaleUp", "delay": 0.2 },
+      { "type": "image", "src": "large-2.jpg", "alt": "Image description", "animation": "scaleUp", "delay": 0.3 },
+      { "type": "image", "src": "small-3.jpg", "alt": "Image description", "animation": "scaleBounce", "delay": 0.4 },
+      { "type": "image", "src": "small-4.jpg", "alt": "Image description", "animation": "scaleBounce", "delay": 0.5 }
+    ],
+    "mediaLayout": "shrine",
+    "footerText": "Footer text here",
+    "titleAnimation": "fadeUp",
+    "footerAnimation": "fadeUp",
+    "effect": "confetti"
+  },
+  {
+    "id": "section-4",
+    "title": "Section Title",
+    "backgroundColor": "bg-[#e94560]",
+    "textColor": "light",
+    "media": [
+      { "type": "image", "src": "image-1.jpg", "alt": "Image description", "animation": "pop", "delay": 0 },
+      { "type": "image", "src": "image-2.jpg", "alt": "Image description", "animation": "pop", "delay": 0.05 },
+      { "type": "image", "src": "image-3.jpg", "alt": "Image description", "animation": "pop", "delay": 0.1 },
+      { "type": "image", "src": "image-4.jpg", "alt": "Image description", "animation": "pop", "delay": 0.15 },
+      { "type": "image", "src": "image-5.jpg", "alt": "Image description", "animation": "pop", "delay": 0.2 },
+      { "type": "image", "src": "image-6.jpg", "alt": "Image description", "animation": "pop", "delay": 0.25 },
+      { "type": "image", "src": "image-7.jpg", "alt": "Image description", "animation": "pop", "delay": 0.3 },
+      { "type": "image", "src": "image-8.jpg", "alt": "Image description", "animation": "pop", "delay": 0.35 }
+    ],
+    "mediaLayout": "bento",
+    "footerText": "Footer text here",
+    "footerBadge": { "text": "Badge text", "rotation": 10 },
+    "titleAnimation": "scaleUp",
+    "footerAnimation": "fadeUp"
+  },
+  {
+    "id": "closing",
+    "title": "Closing title text...",
+    "subtitle": "Closing subtitle text",
+    "backgroundColor": "bg-[#1a1a2e]",
+    "textColor": "light",
+    "media": [
+      { "type": "image", "src": "final-1.jpg", "alt": "Image description", "animation": "pop", "delay": 0 },
+      { "type": "image", "src": "final-2.jpg", "alt": "Image description", "animation": "pop", "delay": 1.0 },
+      { "type": "image", "src": "final-3.jpg", "alt": "Image description", "animation": "pop", "delay": 2.0 },
+      { "type": "image", "src": "final-4.jpg", "alt": "Image description", "animation": "pop", "delay": 3.0 }
+    ],
+    "mediaLayout": "grid",
+    "titleAnimation": "fadeUp",
+    "timelineAnimation": true,
+    "typewriterTitle": true,
+    "typewriterSubtitle": true,
+    "subtitleHighlightWord": "subtitle"
+  },
+  {
+    "id": "final",
+    "backgroundColor": "bg-[#1a1a2e]",
+    "textColor": "light",
+    "media": [
+      {
+        "type": "video",
+        "src": "final-video.mp4",
+        "alt": "Final video",
+        "animation": "fadeUp",
+        "autoplayWithSound": true
+      }
+    ],
+    "mediaLayout": "heroVideo",
+    "caption": "Caption text with highlight word",
+    "captionAnimation": "fadeUp",
+    "footerText": "Footer text",
+    "footerBadge": { "text": "Badge text", "rotation": 0 },
+    "footerAnimation": "fadeUp",
+    "timelineAnimation": true
+  }
+]

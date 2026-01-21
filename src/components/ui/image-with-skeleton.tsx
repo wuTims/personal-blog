@@ -20,9 +20,18 @@ export interface ImageWithSkeletonProps extends React.ImgHTMLAttributes<HTMLImag
  * Handles the race condition where cached images may load before
  * React attaches event handlers by checking img.complete on ref attachment.
  */
+// Check if an image URL is already cached in the browser
+function isImageCached(src: string | undefined): boolean {
+  if (!src || typeof window === 'undefined') return false
+  const img = new Image()
+  img.src = src
+  return img.complete && img.naturalWidth > 0
+}
+
 const ImageWithSkeleton = React.forwardRef<HTMLImageElement, ImageWithSkeletonProps>(
   ({ src, alt, objectPosition, fallbackSrc, className, containerClassName, ...props }, ref) => {
-    const [isLoaded, setIsLoaded] = React.useState(false)
+    // Initialize isLoaded based on cache status to avoid skeleton flash
+    const [isLoaded, setIsLoaded] = React.useState(() => isImageCached(src))
     const [hasError, setHasError] = React.useState(false)
     const [currentSrc, setCurrentSrc] = React.useState(src)
     const prevSrcRef = React.useRef(src)

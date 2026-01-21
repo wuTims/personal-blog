@@ -11,6 +11,7 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as ComponentsRouteImport } from './routes/components'
 import { Route as AboutRouteImport } from './routes/about'
+import { Route as R7RouteImport } from './routes/7'
 import { Route as BlogRouteRouteImport } from './routes/blog/route'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as BlogIndexRouteImport } from './routes/blog/index'
@@ -25,6 +26,11 @@ const ComponentsRoute = ComponentsRouteImport.update({
 const AboutRoute = AboutRouteImport.update({
   id: '/about',
   path: '/about',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const R7Route = R7RouteImport.update({
+  id: '/7',
+  path: '/7',
   getParentRoute: () => rootRouteImport,
 } as any)
 const BlogRouteRoute = BlogRouteRouteImport.update({
@@ -56,6 +62,7 @@ const BlogPostsSlugRoute = BlogPostsSlugRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/blog': typeof BlogRouteRouteWithChildren
+  '/7': typeof R7Route
   '/about': typeof AboutRoute
   '/components': typeof ComponentsRoute
   '/blog/': typeof BlogIndexRoute
@@ -64,6 +71,7 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/7': typeof R7Route
   '/about': typeof AboutRoute
   '/components': typeof ComponentsRoute
   '/blog': typeof BlogIndexRoute
@@ -74,6 +82,7 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/blog': typeof BlogRouteRouteWithChildren
+  '/7': typeof R7Route
   '/about': typeof AboutRoute
   '/components': typeof ComponentsRoute
   '/blog/': typeof BlogIndexRoute
@@ -85,6 +94,7 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/blog'
+    | '/7'
     | '/about'
     | '/components'
     | '/blog/'
@@ -93,6 +103,7 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/7'
     | '/about'
     | '/components'
     | '/blog'
@@ -102,6 +113,7 @@ export interface FileRouteTypes {
     | '__root__'
     | '/'
     | '/blog'
+    | '/7'
     | '/about'
     | '/components'
     | '/blog/'
@@ -112,6 +124,7 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   BlogRouteRoute: typeof BlogRouteRouteWithChildren
+  R7Route: typeof R7Route
   AboutRoute: typeof AboutRoute
   ComponentsRoute: typeof ComponentsRoute
 }
@@ -130,6 +143,13 @@ declare module '@tanstack/react-router' {
       path: '/about'
       fullPath: '/about'
       preLoaderRoute: typeof AboutRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/7': {
+      id: '/7'
+      path: '/7'
+      fullPath: '/7'
+      preLoaderRoute: typeof R7RouteImport
       parentRoute: typeof rootRouteImport
     }
     '/blog': {
@@ -189,6 +209,7 @@ const BlogRouteRouteWithChildren = BlogRouteRoute._addFileChildren(
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   BlogRouteRoute: BlogRouteRouteWithChildren,
+  R7Route: R7Route,
   AboutRoute: AboutRoute,
   ComponentsRoute: ComponentsRoute,
 }

@@ -157,6 +157,7 @@ function RootDocument({ children }: { children: ReactNode }) {
   const { theme } = Route.useLoaderData()
   const location = useLocation()
   const isHomePage = location.pathname === '/'
+  const isStoryboardPage = location.pathname === '/7'
 
   return (
     <html className={theme === 'dark' ? 'dark' : ''} suppressHydrationWarning>
@@ -257,13 +258,17 @@ function RootDocument({ children }: { children: ReactNode }) {
       </head>
       <body>
         <DarkModeProvider initialTheme={theme}>
-          <div className="flex min-h-screen flex-col bg-neutral-50 dark:bg-neutral-950">
-            <SiteNavbar />
-            <main className="flex-1">
-              {children}
-            </main>
-            {!isHomePage && <Footer />}
-          </div>
+          {isStoryboardPage ? (
+            children
+          ) : (
+            <div className="flex min-h-screen flex-col bg-neutral-50 dark:bg-neutral-950">
+              <SiteNavbar />
+              <main className="flex-1">
+                {children}
+              </main>
+              {!isHomePage && <Footer />}
+            </div>
+          )}
         </DarkModeProvider>
         <Scripts />
       </body>
