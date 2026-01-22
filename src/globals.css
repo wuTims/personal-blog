@@ -469,6 +469,72 @@
    Utility Classes
    ============================================ */
 
+/* ============================================
+   Shiki Syntax Highlighting
+   ============================================ */
+
+/* Light mode: show light theme colors, hide dark */
+:root .shiki,
+:root .shiki span {
+  color: var(--shiki-light) !important;
+  background-color: var(--shiki-light-bg) !important;
+}
+
+/* Dark mode: show dark theme colors */
+:root.dark .shiki,
+:root.dark .shiki span {
+  color: var(--shiki-dark) !important;
+  background-color: var(--shiki-dark-bg) !important;
+}
+
+/* Override Shiki pre/code styles to match existing theme */
+.prose .shiki {
+  font-family: var(--font-family-mono);
+  font-size: 0.875rem;
+  padding: 1.25rem;
+  border-radius: var(--radius-sm);
+  overflow-x: auto;
+  margin: 2rem 0;
+}
+
+.prose .shiki code {
+  font-family: inherit;
+  font-size: inherit;
+  padding: 0;
+  background: transparent !important;
+  border-radius: 0;
+  color: inherit !important;
+}
+
+/* ============================================
+   Mermaid Diagram Styles
+   ============================================ */
+
+.mermaid-container {
+  /* Ensure diagrams have breathing room */
+  min-height: 200px;
+}
+
+.mermaid-container svg {
+  /* Maintain aspect ratio - width is set by JavaScript based on viewBox */
+  height: auto;
+  /* Ensure SVG is centered and maintains aspect ratio */
+  display: block;
+  margin: 0 auto;
+}
+
+/* Increase font sizes in mermaid diagrams */
+.mermaid-container .nodeLabel,
+.mermaid-container .edgeLabel,
+.mermaid-container .label {
+  font-size: 14px !important;
+}
+
+.mermaid-container .cluster-label .nodeLabel {
+  font-size: 15px !important;
+  font-weight: 600 !important;
+}
+
 @layer utilities {
   /* Skeleton shimmer animation */
   @keyframes shimmer {
