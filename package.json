@@ -23,11 +23,13 @@
     "framer-motion": "^12.23.25",
     "lucide-react": "^0.556.0",
     "marked": "^17.0.1",
+    "mermaid": "^11.12.2",
     "react": "^19.2.1",
     "react-confetti": "^6.4.0",
     "react-dom": "^19.2.1",
     "react-snowfall": "^2.4.0",
     "react-sparkle": "^2.0.0",
+    "shiki": "^3.21.0",
     "zod": "^4.1.13"
   },
   "devDependencies": {
