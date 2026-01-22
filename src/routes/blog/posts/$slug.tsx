@@ -1,6 +1,7 @@
 import { createFileRoute, Link, notFound } from '@tanstack/react-router'
 import { allPosts } from 'content-collections'
-import { Container, Heading, Text, NewsletterSubscribe } from '~/components/ui'
+import { Container, Heading, Text, NewsletterSubscribe, HeroImage } from '~/components/ui'
+import { ArticleContent } from '~/components/article-content'
 import {
   seoConfig,
   toISODate,
@@ -85,6 +86,15 @@ function PostPage() {
           <span>Back to Blog</span>
         </Link>
 
+        {/* Hero image */}
+        {post.heroImage && (
+          <HeroImage
+            src={post.heroImage}
+            alt={post.title}
+            position={post.heroImagePosition}
+          />
+        )}
+
         {/* Header */}
         <header className="mb-10 sm:mb-12">
           <Heading level="h1" className="mb-4">
@@ -117,10 +127,7 @@ function PostPage() {
 
         {/* Content */}
         <div className="border-t border-border pt-8">
-          <article
-            className="prose"
-            dangerouslySetInnerHTML={{ __html: post.html }}
-          />
+          <ArticleContent html={post.html} />
         </div>
 
         {/* Newsletter CTA */}

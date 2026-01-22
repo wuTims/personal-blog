@@ -1,6 +1,7 @@
 import { createFileRoute, Link, notFound } from '@tanstack/react-router'
 import { allProjects } from 'content-collections'
-import { Container, Heading, Text } from '~/components/ui'
+import { Container, Heading, Text, HeroImage } from '~/components/ui'
+import { ArticleContent } from '~/components/article-content'
 import { buttonVariants } from '~/components/ui/button'
 import {
   seoConfig,
@@ -88,6 +89,15 @@ function ProjectPage() {
           <span>Back to Blog</span>
         </Link>
 
+        {/* Hero image */}
+        {project.heroImage && (
+          <HeroImage
+            src={project.heroImage}
+            alt={project.title}
+            position={project.heroImagePosition}
+          />
+        )}
+
         {/* Header */}
         <header className="mb-10 sm:mb-12">
           <Heading level="h1" className="mb-4">
@@ -152,10 +162,7 @@ function ProjectPage() {
 
         {/* Content */}
         <div className="border-t border-border pt-8">
-          <article
-            className="prose"
-            dangerouslySetInnerHTML={{ __html: project.html }}
-          />
+          <ArticleContent html={project.html} />
         </div>
       </Container>
     </div>
