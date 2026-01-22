@@ -3,10 +3,8 @@ import { useState, useEffect, useCallback } from 'react'
 import { StoryboardContainer } from '~/components/storyboard/StoryboardContainer'
 import {
   fetchStoryboardConfig,
-  preloadStoryboardMedia,
   type StoryboardSectionData,
 } from '~/lib/storyboard-data'
-import { getMediaUrl } from '~/lib/utils'
 import { createPageMeta, seoConfig } from '~/lib/seo'
 
 const STORYBOARD_FOLDER = 'a80c6c41'
@@ -61,8 +59,6 @@ function SevenPage() {
     setLoadError(null)
     try {
       const data = await fetchStoryboardConfig(STORYBOARD_FOLDER)
-      // Wait for all images to load before showing
-      await preloadStoryboardMedia(data, getMediaUrl)
       setSections(data)
     } catch (err) {
       setLoadError(err instanceof Error ? err.message : 'Failed to load content')

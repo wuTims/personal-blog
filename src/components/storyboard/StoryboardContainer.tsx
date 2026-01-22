@@ -2,7 +2,9 @@ import { useState, useCallback, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { StoryboardProgress } from './StoryboardProgress'
 import { StoryboardSection } from './StoryboardSection'
+import { StoryboardImageProvider, useStoryboardImages } from './StoryboardImageContext'
 import type { StoryboardSectionData } from '~/lib/storyboard-data'
+import { getMediaUrl } from '~/lib/utils'
 
 // Hoisted outside component to avoid recreation on every render (Rule 6.3)
 const bgVariants = {
@@ -24,9 +26,15 @@ interface StoryboardContainerProps {
   sections: StoryboardSectionData[]
 }
 
-export function StoryboardContainer({ sections }: StoryboardContainerProps) {
+function StoryboardContainerInner({ sections }: StoryboardContainerProps) {
+  const { isReady, preloadSection } = useStoryboardImages()
   const [currentIndex, setCurrentIndex] = useState(0)
   const [direction, setDirection] = useState(1)
+
+  // Preload adjacent sections on navigation
+  useEffect(() => {
+    preloadSection(currentIndex)
+  }, [currentIndex, preloadSection])
 
   const isFirstSlide = currentIndex === 0
   const isLastSlide = currentIndex === sections.length - 1
@@ -124,6 +132,18 @@ export function StoryboardContainer({ sections }: StoryboardContainerProps) {
 
   const currentSection = sections[currentIndex]
 
+  // Show loading state while initial images are being preloaded
+  if (!isReady) {
+    return (
+      <div className="flex h-screen w-full items-center justify-center bg-black">
+        <div className="flex flex-col items-center gap-4">
+          <div className="h-8 w-8 animate-spin rounded-full border-2 border-white/20 border-t-white" />
+          <p className="text-sm text-white/60">Loading...</p>
+        </div>
+      </div>
+    )
+  }
+
   return (
     <div
       className="relative h-screen w-full cursor-pointer overflow-hidden"
@@ -169,5 +189,13 @@ export function StoryboardContainer({ sections }: StoryboardContainerProps) {
         </div>
       )}
     </div>
+  )
+}
+
+export function StoryboardContainer({ sections }: StoryboardContainerProps) {
+  return (
+    <StoryboardImageProvider sections={sections} getMediaUrl={getMediaUrl}>
+      <StoryboardContainerInner sections={sections} />
+    </StoryboardImageProvider>
   )
 }

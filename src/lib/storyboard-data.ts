@@ -1,3 +1,84 @@
+// Persistent cache to prevent garbage collection of preloaded images
+export const imageCache = new Map<string, HTMLImageElement>()
+
+/**
+ * Preloads and decodes a single image, storing it in the cache.
+ * Uses decode() API to force bitmap decoding before render.
+ */
+export async function preloadAndDecodeImage(src: string): Promise<HTMLImageElement> {
+  // Return cached image if already loaded
+  const cached = imageCache.get(src)
+  if (cached) {
+    return cached
+  }
+
+  return new Promise((resolve, reject) => {
+    const img = new Image()
+    img.onload = async () => {
+      try {
+        // Force bitmap decode before resolving
+        await img.decode()
+        imageCache.set(src, img)
+        resolve(img)
+      } catch {
+        // decode() can fail on some browsers/images, still cache the loaded image
+        imageCache.set(src, img)
+        resolve(img)
+      }
+    }
+    img.onerror = () => reject(new Error(`Failed to load image: ${src}`))
+    img.src = src
+  })
+}
+
+/**
+ * Preloads and decodes images for specific sections with priority control.
+ * High priority loads sequentially for faster first paint.
+ * Low priority loads in parallel for background preloading.
+ */
+export async function preloadSectionMedia(
+  sections: StoryboardSectionData[],
+  getMediaUrl: (path: string) => string,
+  priority: 'high' | 'low' = 'low'
+): Promise<void> {
+  const imageSources: string[] = []
+
+  for (const section of sections) {
+    for (const media of section.media) {
+      if (media.type === 'image') {
+        imageSources.push(getMediaUrl(media.src))
+      }
+    }
+  }
+
+  if (priority === 'high') {
+    // Sequential loading for critical images - faster first paint
+    for (const src of imageSources) {
+      try {
+        await preloadAndDecodeImage(src)
+      } catch {
+        // Don't block on failed images
+      }
+    }
+  } else {
+    // Parallel loading for background preloading
+    await Promise.all(
+      imageSources.map((src) =>
+        preloadAndDecodeImage(src).catch(() => {
+          // Don't block on failed images
+        })
+      )
+    )
+  }
+}
+
+/**
+ * Clears the image cache. Call on unmount to free memory.
+ */
+export function clearImageCache(): void {
+  imageCache.clear()
+}
+
 export type AnimationType =
   | 'fadeUp'
   | 'fadeDown'

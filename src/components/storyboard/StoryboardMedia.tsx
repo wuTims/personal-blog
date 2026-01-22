@@ -1,7 +1,7 @@
 import { useRef, useEffect, useState } from 'react'
 import { motion, type Variants } from 'framer-motion'
 import Sparkle from 'react-sparkle'
-import { ImageWithSkeleton } from '~/components/ui/image-with-skeleton'
+import { StoryboardImage } from './StoryboardImage'
 import { getMediaUrl, cn } from '~/lib/utils'
 import type {
   StoryboardMedia as StoryboardMediaType,
@@ -162,7 +162,7 @@ function MediaItem({
           })}
     >
       {item.type === 'image' ? (
-        <ImageWithSkeleton
+        <StoryboardImage
           src={getMediaUrl(item.src)}
           alt={item.alt}
           className={cn('h-full w-full', objectFit === 'contain' ? 'object-contain' : 'object-cover')}
@@ -219,7 +219,7 @@ function PolaroidItem({
     >
       <div className="aspect-square w-full overflow-hidden">
         {item.type === 'image' ? (
-          <ImageWithSkeleton
+          <StoryboardImage
             src={getMediaUrl(item.src)}
             alt={item.alt}
             className="h-full w-full object-cover"
