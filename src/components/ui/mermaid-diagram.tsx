@@ -1,4 +1,7 @@
-import { useEffect, useId, useRef, useState } from 'react'
+'use client'
+
+import { useEffect, useId, useRef, useState, useCallback } from 'react'
+import { DiagramLightbox } from './diagram-lightbox'
 
 interface MermaidDiagramProps {
   chart: string
@@ -8,9 +11,40 @@ export function MermaidDiagram({ chart }: MermaidDiagramProps) {
   const containerRef = useRef<HTMLDivElement>(null)
   const [error, setError] = useState<string | null>(null)
   const [isLoading, setIsLoading] = useState(true)
+  const [isLightboxOpen, setIsLightboxOpen] = useState(false)
+  const [svgContent, setSvgContent] = useState<string>('')
+  const [isMobile, setIsMobile] = useState(
+    typeof window !== 'undefined' ? window.innerWidth < 640 : true
+  )
   const renderIdRef = useRef(0)
   // React's useId guarantees unique IDs across all component instances
   const componentId = useId()
+
+  // Mobile detection
+  useEffect(() => {
+    const checkMobile = () => setIsMobile(window.innerWidth < 640)
+    checkMobile()
+    window.addEventListener('resize', checkMobile)
+    return () => window.removeEventListener('resize', checkMobile)
+  }, [])
+
+  // Handle click to open lightbox
+  const handleClick = useCallback(() => {
+    if (svgContent) {
+      setIsLightboxOpen(true)
+    }
+  }, [svgContent])
+
+  // Handle keyboard interaction for accessibility
+  const handleKeyDown = useCallback(
+    (event: React.KeyboardEvent) => {
+      if (event.key === 'Enter' || event.key === ' ') {
+        event.preventDefault()
+        handleClick()
+      }
+    },
+    [handleClick]
+  )
 
   useEffect(() => {
     let mounted = true
@@ -56,7 +90,7 @@ export function MermaidDiagram({ chart }: MermaidDiagramProps) {
 
         if (mounted && currentRenderId === renderIdRef.current && containerRef.current) {
           containerRef.current.innerHTML = svg
-          
+
           // Adjust SVG sizing: make large diagrams smaller, small diagrams larger
           const svgElement = containerRef.current.querySelector('svg')
           if (svgElement) {
@@ -64,11 +98,11 @@ export function MermaidDiagram({ chart }: MermaidDiagramProps) {
             if (viewBox) {
               // Parse viewBox: "x y width height"
               const [, , viewBoxWidth, viewBoxHeight] = viewBox.split(' ').map(Number)
-              
+
               if (viewBoxWidth && viewBoxHeight) {
                 const minWidth = 600 // Minimum width for small diagrams
                 const maxWidth = 800 // Maximum width for large diagrams
-                
+
                 let targetWidth: number
                 if (viewBoxWidth > maxWidth) {
                   // Scale large diagrams down to maxWidth
@@ -80,14 +114,18 @@ export function MermaidDiagram({ chart }: MermaidDiagramProps) {
                   // Keep original size for medium diagrams
                   targetWidth = viewBoxWidth
                 }
-                
+
                 // Set width and let height be calculated from aspect ratio
                 svgElement.setAttribute('width', `${targetWidth}`)
                 svgElement.removeAttribute('height') // Let CSS maintain aspect ratio
               }
             }
+
+            // Store the SVG content for the lightbox
+            // Use the rendered SVG directly, just adjust sizing for lightbox
+            setSvgContent(svg)
           }
-          
+
           setIsLoading(false)
         }
       } catch (err) {
@@ -122,7 +160,7 @@ export function MermaidDiagram({ chart }: MermaidDiagramProps) {
       mounted = false
       observer.disconnect()
     }
-  }, [chart])
+  }, [chart, componentId])
 
   if (error) {
     return (
@@ -136,16 +174,51 @@ export function MermaidDiagram({ chart }: MermaidDiagramProps) {
   }
 
   return (
-    <div className="mermaid-container my-8 flex justify-center">
-      {isLoading && (
-        <div className="flex h-48 w-full items-center justify-center rounded-sm bg-neutral-100 dark:bg-neutral-800">
-          <div className="text-sm text-muted">Loading diagram...</div>
-        </div>
-      )}
-      <div
-        ref={containerRef}
-        className={isLoading ? 'hidden' : ''}
+    <>
+      <div className="mermaid-container mermaid-container-interactive my-8 flex justify-center">
+        {isLoading && (
+          <div className="flex h-48 w-full items-center justify-center rounded-sm bg-neutral-100 dark:bg-neutral-800">
+            <div className="text-sm text-muted">Loading diagram...</div>
+          </div>
+        )}
+        <div
+          ref={containerRef}
+          className={isLoading ? 'hidden' : ''}
+          role="button"
+          tabIndex={0}
+          onClick={handleClick}
+          onKeyDown={handleKeyDown}
+          aria-label="Click to view diagram in fullscreen"
+        />
+        {/* Mobile expand hint icon */}
+        {!isLoading && isMobile && (
+          <div className="mermaid-hint" aria-hidden="true">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            >
+              <polyline points="15 3 21 3 21 9" />
+              <polyline points="9 21 3 21 3 15" />
+              <line x1="21" y1="3" x2="14" y2="10" />
+              <line x1="3" y1="21" x2="10" y2="14" />
+            </svg>
+          </div>
+        )}
+      </div>
+
+      {/* Lightbox */}
+      <DiagramLightbox
+        isOpen={isLightboxOpen}
+        onClose={() => setIsLightboxOpen(false)}
+        svgContent={svgContent}
       />
-    </div>
+    </>
   )
 }

@@ -535,6 +535,99 @@
   font-weight: 600 !important;
 }
 
+/* Interactive mermaid container */
+.mermaid-container-interactive {
+  position: relative;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.mermaid-container-interactive:hover {
+  transform: scale(1.01);
+}
+
+/* Desktop expand icon on hover */
+@media (min-width: 640px) {
+  .mermaid-container-interactive::after {
+    content: '';
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    width: 32px;
+    height: 32px;
+    background-color: var(--color-foreground);
+    opacity: 0;
+    border-radius: 6px;
+    transition: opacity 0.2s ease;
+    mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='15 3 21 3 21 9'%3E%3C/polyline%3E%3Cpolyline points='9 21 3 21 3 15'%3E%3C/polyline%3E%3Cline x1='21' y1='3' x2='14' y2='10'%3E%3C/line%3E%3Cline x1='3' y1='21' x2='10' y2='14'%3E%3C/line%3E%3C/svg%3E");
+    mask-size: 20px 20px;
+    mask-position: center;
+    mask-repeat: no-repeat;
+    -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='15 3 21 3 21 9'%3E%3C/polyline%3E%3Cpolyline points='9 21 3 21 3 15'%3E%3C/polyline%3E%3Cline x1='21' y1='3' x2='14' y2='10'%3E%3C/line%3E%3Cline x1='3' y1='21' x2='10' y2='14'%3E%3C/line%3E%3C/svg%3E");
+    -webkit-mask-size: 20px 20px;
+    -webkit-mask-position: center;
+    -webkit-mask-repeat: no-repeat;
+  }
+
+  .mermaid-container-interactive:hover::after {
+    opacity: 0.6;
+  }
+}
+
+/* Mobile expand hint icon */
+.mermaid-hint {
+  position: absolute;
+  bottom: 8px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  background-color: var(--color-foreground);
+  color: var(--color-background);
+  border-radius: 999px;
+  opacity: 0.6;
+  pointer-events: none;
+  transition: opacity 0.2s ease;
+}
+
+/* Hide hint on desktop */
+@media (min-width: 640px) {
+  .mermaid-hint {
+    display: none;
+  }
+}
+
+/* Mobile mermaid container - full width */
+@media (max-width: 639px) {
+  .mermaid-container-interactive svg {
+    width: 100% !important;
+    max-width: 100%;
+  }
+}
+
+/* ============================================
+   Diagram Lightbox Styles
+   ============================================ */
+
+.diagram-lightbox-svg {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.diagram-lightbox-svg svg {
+  /* svg-pan-zoom needs the SVG to fill its container */
+  width: 100% !important;
+  height: 100% !important;
+  max-width: none !important;
+  max-height: none !important;
+}
+
 @layer utilities {
   /* Skeleton shimmer animation */
   @keyframes shimmer {
