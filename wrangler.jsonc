@@ -1,23 +1,37 @@
 {
-  "$schema": "node_modules/wrangler/config-schema.json",
-  "name": "wutims-blog",
-  // Account ID can be set here or via CLOUDFLARE_ACCOUNT_ID environment variable
-  // Get it from: https://dash.cloudflare.com/ (right sidebar)
-  "account_id": "5d3860a4583a97c04f8fe2d96bd36852",
-  "compatibility_date": "2025-04-01",
-  "compatibility_flags": ["nodejs_compat"],
-  "main": "@tanstack/react-start/server-entry",
-  "dev": {
-    "ip": "0.0.0.0",
-    "port": 8787
-  },
-  // Environment variables:
-  // - Development: Store secrets in .dev.vars (not committed to git)
-  // - Production: Use `wrangler secret put BEEHIIV_API_KEY` and `wrangler secret put BEEHIIV_PUBLICATION_ID`
-  "r2_buckets": [
-    {
-      "binding": "MEDIA_BUCKET",
-      "bucket_name": "wutims-blog-media"
-    }
-  ]
+	"$schema": "node_modules/wrangler/config-schema.json",
+	"name": "wutims-blog",
+	// Account ID can be set here or via CLOUDFLARE_ACCOUNT_ID environment variable
+	// Get it from: https://dash.cloudflare.com/ (right sidebar)
+	"account_id": "5d3860a4583a97c04f8fe2d96bd36852",
+	"compatibility_date": "2025-04-01",
+	"compatibility_flags": [
+		"nodejs_compat"
+	],
+	"main": "@tanstack/react-start/server-entry",
+	"dev": {
+		"ip": "0.0.0.0",
+		"port": 8787
+	},
+	// Environment variables:
+	// - Development: Store secrets in .dev.vars (not committed to git)
+	// - Production: Use `wrangler secret put BEEHIIV_API_KEY` and `wrangler secret put BEEHIIV_PUBLICATION_ID`
+	"r2_buckets": [
+		{
+			"binding": "MEDIA_BUCKET",
+			"bucket_name": "wutims-blog-media"
+		}
+	],
+	"routes": [
+		{
+			"pattern": "wutims.com",
+			"zone_name": "wutims.com",
+			"custom_domain": true
+		}
+	],
+	"vars": {
+		"VITE_MEDIA_BASE_URL": "https://media.wutims.com"
+	},
+	"workers_dev": true,
+	"preview_urls": true
 }
