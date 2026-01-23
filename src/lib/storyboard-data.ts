@@ -2,8 +2,27 @@
 export const imageCache = new Map<string, HTMLImageElement>()
 
 /**
+ * Detect iOS for memory-safe image loading.
+ * iOS Safari has reduced canvas/image memory limits and can crash with heavy decoding.
+ */
+function isIOSDevice(): boolean {
+  if (typeof navigator === 'undefined') return false
+  const iosRegex = /iPhone|iPad|iPod/i
+  const isIOSUA = iosRegex.test(navigator.userAgent)
+  // iPadOS 13+ reports as Mac, so check for touch support
+  const isIPadOS =
+    typeof document !== 'undefined' &&
+    navigator.userAgent.includes('Mac') &&
+    'ontouchend' in document
+  return isIOSUA || isIPadOS
+}
+
+/**
  * Preloads and decodes a single image, storing it in the cache.
  * Uses decode() API to force bitmap decoding before render.
+ *
+ * On iOS, skips the decode() step to reduce memory pressure and avoid
+ * potential GPU memory crashes (WebKit Bug #195325, #231157).
  */
 export async function preloadAndDecodeImage(src: string): Promise<HTMLImageElement> {
   // Return cached image if already loaded
@@ -12,11 +31,21 @@ export async function preloadAndDecodeImage(src: string): Promise<HTMLImageEleme
     return cached
   }
 
+  const isIOS = isIOSDevice()
+
   return new Promise((resolve, reject) => {
     const img = new Image()
     img.onload = async () => {
+      // On iOS, skip decode() to reduce memory pressure
+      // The browser will decode lazily when the image is actually rendered
+      if (isIOS) {
+        imageCache.set(src, img)
+        resolve(img)
+        return
+      }
+
       try {
-        // Force bitmap decode before resolving
+        // Force bitmap decode before resolving (non-iOS only)
         await img.decode()
         imageCache.set(src, img)
         resolve(img)

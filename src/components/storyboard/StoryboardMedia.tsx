@@ -3,6 +3,7 @@ import { motion, type Variants } from 'framer-motion'
 import Sparkle from 'react-sparkle'
 import { StoryboardImage } from './StoryboardImage'
 import { getMediaUrl, cn } from '~/lib/utils'
+import { useIsIOS } from '~/lib/use-ios-detection'
 import type {
   StoryboardMedia as StoryboardMediaType,
   MediaLayout,
@@ -106,6 +107,7 @@ function MediaItem({
       // Start playing with sound after animation delay
       const timer = setTimeout(() => {
         video.currentTime = 0
+        video.volume = 0.1 // Lower volume to 20%
         video.muted = false
         video.play().catch(() => {
           // If autoplay with sound fails, keep it muted
@@ -257,6 +259,9 @@ export function StoryboardMedia({
   sectionId: _sectionId,
   sparkle = false,
 }: StoryboardMediaProps) {
+  // Detect iOS for canvas fallbacks (iOS Safari has GPU canvas rendering issues)
+  const isIOS = useIsIOS()
+
   // Detect if mobile (< 640px = sm breakpoint) for heroVideo layout
   // Must be at top level to follow React hooks rules
   const [isMobile, setIsMobile] = useState(
@@ -444,7 +449,7 @@ export function StoryboardMedia({
   if (layout === 'checkerboard') {
     return (
       <div className="relative">
-        {sparkle && isActive && (
+        {sparkle && isActive && !isIOS && (
           <Sparkle
             color="#FFD700"
             count={20}

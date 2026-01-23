@@ -5,6 +5,8 @@ import Confetti from 'react-confetti'
 import Sparkle from 'react-sparkle'
 import { cn } from '~/lib/utils'
 import { StoryboardMedia } from './StoryboardMedia'
+import { CSSSnowfall } from './CSSSnowfall'
+import { useIsIOS } from '~/lib/use-ios-detection'
 import type { StoryboardSectionData, AnimationType } from '~/lib/storyboard-data'
 
 // Typewriter animation component
@@ -227,6 +229,7 @@ interface StoryboardSectionProps {
 export function StoryboardSection({ section, isActive }: StoryboardSectionProps) {
   const { width, height } = useWindowSize()
   const [titleComplete, setTitleComplete] = useState(false)
+  const isIOS = useIsIOS()
 
   // Reset titleComplete when section becomes inactive
   useEffect(() => {
@@ -301,23 +304,27 @@ export function StoryboardSection({ section, isActive }: StoryboardSectionProps)
       )}
       style={backgroundStyle}
     >
-      {/* Snow effect */}
+      {/* Snow effect - CSS fallback on iOS due to canvas GPU crash (iOS 15+) */}
       {section.effect === 'snow' && isActive && (
-        <Snowfall
-          snowflakeCount={150}
-          radius={[0.5, 2.5]}
-          speed={[0.5, 2]}
-          wind={[-0.5, 1]}
-          style={{
-            position: 'absolute',
-            inset: 0,
-            zIndex: 0,
-          }}
-        />
+        isIOS ? (
+          <CSSSnowfall snowflakeCount={50} />
+        ) : (
+          <Snowfall
+            snowflakeCount={150}
+            radius={[0.5, 2.5]}
+            speed={[0.5, 2]}
+            wind={[-0.5, 1]}
+            style={{
+              position: 'absolute',
+              inset: 0,
+              zIndex: 0,
+            }}
+          />
+        )
       )}
 
-      {/* Confetti effect */}
-      {section.effect === 'confetti' && isActive && width > 0 && (
+      {/* Confetti effect - disabled on iOS due to canvas GPU crash (iOS 15+) */}
+      {section.effect === 'confetti' && isActive && width > 0 && !isIOS && (
         <Confetti
           width={width}
           height={height}
@@ -412,7 +419,7 @@ export function StoryboardSection({ section, isActive }: StoryboardSectionProps)
                     animate={isActive ? 'visible' : 'hidden'}
                     transition={{ ...springTransition, delay: footerDelay + 0.5 }}
                   >
-                    {section.footerSparkle && isActive && (
+                    {section.footerSparkle && isActive && !isIOS && (
                       <Sparkle
                         color="#FFD700"
                         count={10}
@@ -498,7 +505,7 @@ export function StoryboardSection({ section, isActive }: StoryboardSectionProps)
                     animate={isActive ? 'visible' : 'hidden'}
                     transition={{ ...springTransition, delay: footerDelay }}
                   >
-                    {section.footerSparkle && isActive && (
+                    {section.footerSparkle && isActive && !isIOS && (
                       <Sparkle
                         color="#FFD700"
                         count={10}
