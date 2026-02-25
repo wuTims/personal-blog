@@ -8,7 +8,7 @@ tags:
   - ai
 github: https://github.com/wuTims/glutton
 cover: https://media.wutims.com/glutton_project_icon.png
-featured: true
+featured: false
 published: true
 ---
 
