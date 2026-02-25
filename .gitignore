@@ -24,6 +24,7 @@ app.config.timestamp_*.js
 # IDE
 .vscode
 .idea
+.claude/settings.local.json
 *.swp
 *.swo
 *~
